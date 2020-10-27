@@ -26,18 +26,41 @@
     <!-- End of Bootstrap components -->
 
     <link rel="stylesheet" type="text/css" href="/static/css/custom.css" />
+
+    <script src="/static/js/main.js"></script>
 </head>
 
 <body>
+
 
 <div class="jumbotron text-center">
     <h1>Codecool Shop</h1>
 </div>
 
 <div class="container">
-    <div class="card">
-        <strong th:text="${category.name}">Category Title</strong>
-    </div>
+
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="btn-group">
+            <button type="button" class="btn btn-success">Select Category</button>
+            <button type="button" class="btn btn-btn-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" th:each="category : ${categories}" th:href="@{/(categoryId=${category.getId()})}" th:text="${category.getName()}"></a>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-success">Select Supplier</button>
+            <button type="button" class="btn btn-btn-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" th:each="supplier : ${suppliers}" th:href="@{/(supplierId=${supplier.getId()})}" th:text="${supplier.getName()}"></a>
+            </div>
+        </div>
+    </nav>
 
     <div id="products" class="row">
         <div class="col col-sm-12 col-md-6 col-lg-4" th:each="prod,iterStat : ${products}">
@@ -51,13 +74,17 @@
                     <div class="card-text">
                         <p class="lead" th:text="${prod.getPrice()}">100 USD</p>
                     </div>
+
                     <div class="card-text">
-                        <a class="btn btn-success" href="#">Add to cart</a>
+                        <a class="btn btn-success" th:href="@{/(add=${prod.id})}">Add to cart</a>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
+
+    
 
 </div>
 
