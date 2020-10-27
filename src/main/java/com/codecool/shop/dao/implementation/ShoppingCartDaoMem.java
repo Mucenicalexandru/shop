@@ -9,8 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingCartDaoMem implements CartDao {
+
     private List<Product> shoppingCart = new ArrayList<>();
     private static ShoppingCartDaoMem instance = null;
+
+    public static ShoppingCartDaoMem getInstance() {
+        if (instance == null) {
+            instance = new ShoppingCartDaoMem();
+        }
+        return instance;
+    }
 
     @Override
     public void add(Product product) {
@@ -29,7 +37,7 @@ public class ShoppingCartDaoMem implements CartDao {
 
     @Override
     public List<Product> getAll() {
-        return null;
+        return shoppingCart;
     }
 
     @Override
