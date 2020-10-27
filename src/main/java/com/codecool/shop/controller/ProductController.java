@@ -1,11 +1,13 @@
 package com.codecool.shop.controller;
 
+import com.codecool.shop.dao.CartDao;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
 import com.codecool.shop.config.TemplateEngineUtil;
+import com.codecool.shop.dao.implementation.ShoppingCartDaoMem;
 import com.codecool.shop.dao.implementation.SupplierDaoMem;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
@@ -22,7 +24,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(urlPatterns = {"/"})
+@WebServlet(urlPatterns = {"/", "/index"})
 public class ProductController extends HttpServlet {
 
     @Override
@@ -30,6 +32,8 @@ public class ProductController extends HttpServlet {
         ProductDao productDataStore = ProductDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
+        CartDao cartDataStore = ShoppingCartDaoMem.getInstance();
+
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
@@ -52,6 +56,10 @@ public class ProductController extends HttpServlet {
             context.setVariable("products", productDataStore.getAll());
         }
 
+        String productToAddId = req.getParameter("add");
+        if(productToAddId != null){
+            cartDataStore.add(productDataStore.find(Integer.parseInt(productToAddId)));
+        }
 
         engine.process("product/index.html", context, resp.getWriter());
     }
