@@ -51,7 +51,7 @@ public class Checkout extends HttpServlet {
         Order order = new Order(orderDataStore.getAll().size(), firstName, lastName, country, address, postcode, town, phone, email, orderedProducts, totalAmount);
         orderDataStore.add(order);
 
-        resp.sendRedirect("/order");
+        resp.sendRedirect("/payment");
 
 //        engine.process("cart/order.html", context, resp.getWriter());
 

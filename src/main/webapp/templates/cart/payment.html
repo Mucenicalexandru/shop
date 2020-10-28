@@ -58,14 +58,14 @@
                 <p class="alert alert-success">Some text success or error</p>
                 <form role="form">
                     <div class="form-group">
-<!--                        <label for="username">Full name (on the card)</label>-->
-                        <input type="text" class="form-control" name="username" placeholder="" required="">
+                        <label for="username">Full name (on the card)</label>
+                        <input type="text" class="form-control" name="username" placeholder="" required="" id="username">
                     </div> <!-- form-group.// -->
 
                     <div class="form-group">
-<!--                        <label for="cardNumber">Card number</label>-->
+                        <label for="cardNumber">Card number</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" name="cardNumber" placeholder="">
+                            <input type="text" class="form-control" name="cardNumber" placeholder="" id="cardNumber">
                             <div class="input-group-append">
 				<span class="input-group-text text-muted">
 					<i class="fab fa-cc-visa"></i>   <i class="fab fa-cc-amex"></i>  
@@ -98,7 +98,7 @@
             <div class="tab-pane fade" id="nav-tab-paypal">
                 <p>Paypal is easiest way to pay online</p>
                 <p>
-                    <button type="button" class="btn btn-primary"> <i class="fab fa-paypal"></i> Log in my Paypal </button>
+                    <a href="/paypal.com"><button type="button" class="btn btn-primary"> <i class="fab fa-paypal"></i> Log in my Paypal </button></a>
                 </p>
                 <p><strong>Note:</strong> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                     tempor incididunt ut labore et dolore magna aliqua. </p>

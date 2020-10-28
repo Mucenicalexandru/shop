@@ -12,10 +12,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @WebServlet(urlPatterns = {"/order"})
 public class OrderConfirmation extends HttpServlet {
 
+    Date date = new Date();
+    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,6 +28,7 @@ public class OrderConfirmation extends HttpServlet {
         OrderDao orderDataStore = OrderDaoMem.getInstance();
 
         context.setVariable("lastOrder", orderDataStore.getLast());
+        context.setVariable("date", formatter.format(date));
 
 
         engine.process("cart/order.html", context, resp.getWriter());

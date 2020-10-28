@@ -21,4 +21,12 @@ public class Payment extends HttpServlet {
         engine.process("cart/payment.html", context, resp.getWriter());
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
+        WebContext context = new WebContext(req, resp, req.getServletContext());
+
+        resp.sendRedirect("/order");
+
+    }
 }
