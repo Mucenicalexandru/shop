@@ -56,7 +56,7 @@ public class ProductController extends HttpServlet {
             context.setVariable("products", productDataStore.getAll());
         }
 
-        String productToAddId = req.getParameter("add");
+        String productToAddId = req.getParameter("productId");
         if(productToAddId != null){
             cartDataStore.add(productDataStore.find(Integer.parseInt(productToAddId)));
         }

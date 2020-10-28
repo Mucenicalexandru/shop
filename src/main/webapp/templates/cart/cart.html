@@ -36,16 +36,36 @@
     <h1>Codecool Shop</h1>
 </div>
 
-<div>
-    <div class="def-number-input number-input safari_only mb-0 w-100">
-        <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                class="minus decrease">-</button>
-        <input class="quantity" min="0" name="quantity" value="1" type="number">
-        <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                class="plus increase">+</button>
-    </div>
-</div>
-</div>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Product name</th>
+        <th scope="col">Price per unit</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Total price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${cart}">
+        <th scope="row">1</th>
+        <td th:text="${product.getName()}"></td>
+        <td th:text="${product.getPrice()}"></td>
+        <td><div>
+            <div class="def-number-input number-input safari_only mb-0 w-100">
+                <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+                        class="minus decrease">-</button>
+                <input class="quantity" min="0" name="quantity" value="1" type="number">
+                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                        class="plus increase">+</button>
+            </div>
+        </div></td>
+        <td>Total price : </td>
+    </tr>
+    </tbody>
+</table>
+
 
 
 
@@ -109,10 +129,6 @@
     </div>
 </div>
 
-
-
-
-<h1 th:each="product : ${cart}" th:text="${product.getName()}"></h1>
 
 
 <div th:replace="footer.html :: copy"></div>
