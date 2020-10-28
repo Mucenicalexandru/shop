@@ -26,6 +26,12 @@
     <!-- End of Bootstrap components -->
 
     <link rel="stylesheet" type="text/css" href="/static/css/custom.css" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
 
 
 </head>
@@ -64,12 +70,20 @@
 
         <!-- Right -->
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a href="#!" class="nav-link navbar-link-2 waves-effect">
-                    <span class="badge badge-pill red">1</span>
-                    <i class="fas fa-shopping-cart pl-0"></i>
-                </a>
-            </li>
+            <div class="collapse navbar-collapse" id="basicExampleNav6">
+
+                <!-- Right -->
+                <ul class="navbar-nav nav-flex-icons ml-auto">
+                    <li class="nav-item dropdown notifications-nav pr-md-3">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink151" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="true">
+                            <p class="badge badge-pill bg-danger" th:text="${cartSize}"></p>
+                            <span><i class="fas fa-shopping-cart pl-0"></i></span>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
             <li class="nav-item">
                 <a th:href="@{/cart}" class="nav-link waves-effect">
                     Cart
@@ -114,7 +128,7 @@
                     </div>
 
                     <div class="card-text">
-                        <a class="btn btn-success" th:href="@{/add (productId=${prod.id})}">Add to cart</a>
+                        <a class="btn btn-success" th:href="@{/addToCart (productId=${prod.id})}">Add to cart</a>
                     </div>
 
                 </div>
