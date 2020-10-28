@@ -33,9 +33,11 @@
 <body>
 
 <nav class="navbar navbar-expand-md navbar-light">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a class="waves-effect" th:href="@{/index}">Home</a></li>
-    </ol>
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+            <a class="nav-link" th:href="@{/index}">Home <span class="sr-only">(current)</span></a>
+        </li>
+    </ul>
 
     <div class="collapse navbar-collapse" id="basicExampleNav11">
 
