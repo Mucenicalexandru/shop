@@ -62,9 +62,9 @@
                     <div>
                         <div class="number-input md-number-input">
 
-                            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                    class="minus decrease" id="minusBtn">-</button>
-
+<!--                            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"-->
+<!--                                    class="minus decrease" id="minusBtn">-</button>-->
+                            <button class="plus increase" id="minusBtn"><a th:href="@{/removeFromCart(productId=${product.getId()},MinusButton='True')}">-</a></button>
                             <input class="quantity" min="1" name="quantity" th:value="${quantity.get(product.getId())}" type="number" id="modifiedQuantity">
                             <!--                                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"-->
                             <button class="plus increase" id="plusBtn"><a th:href="@{/addToCart(productId=${product.getId()},button='True')}">+</a></button>

@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
 @WebServlet(urlPatterns = {"/checkout"})
@@ -43,6 +44,7 @@ public class Checkout extends HttpServlet {
         OrderDao orderDataStore = OrderDaoMem.getInstance();
 
 
+        UUID uuid = UUID.randomUUID();
         String lastName = req.getParameter("lastName");
         String firstName = req.getParameter("firstName");
         String country = req.getParameter("country");
@@ -57,7 +59,7 @@ public class Checkout extends HttpServlet {
 
 
 
-        Order order = new Order(orderDataStore.getAll().size(), firstName, lastName, country, address, postcode, town, phone, email, orderedProducts, quantitiesOrdered, totalAmount);
+        Order order = new Order(uuid, firstName, lastName, country, address, postcode, town, phone, email, orderedProducts, quantitiesOrdered, totalAmount);
         orderDataStore.add(order);
 
         resp.sendRedirect("/payment");

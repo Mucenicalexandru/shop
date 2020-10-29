@@ -23,7 +23,7 @@ public class OrderConfirmation extends HttpServlet {
 
     private Date date = new Date();
     private SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-    private UUID uuid = UUID.randomUUID();
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -39,7 +39,7 @@ public class OrderConfirmation extends HttpServlet {
         context.setVariable("lastOrder", orderDataStore.getLast());
         context.setVariable("date", formatter.format(date));
         context.setVariable("finalPrice", finalPrice);
-        context.setVariable("receiptNumber", uuid);
+
 
         engine.process("cart/order.html", context, resp.getWriter());
     }

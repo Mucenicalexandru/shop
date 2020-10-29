@@ -2,10 +2,11 @@ package com.codecool.shop.model;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class Order {
 
-    private int id;
+    private UUID uuid;
     private String firstName;
     private String lastName;
     private String country;
@@ -18,7 +19,7 @@ public class Order {
     private HashMap<Integer, Integer> orderedQuantities;
     private String totalAmount;
 
-    public Order(int id, String firstName, String lastName, String country, String address, String postcode, String town, String phoneNumber, String email, List<Product> orderedProducts, HashMap<Integer, Integer> orderedQuantities, String totalAmount) {
+    public Order(UUID uuid, String firstName, String lastName, String country, String address, String postcode, String town, String phoneNumber, String email, List<Product> orderedProducts, HashMap<Integer, Integer> orderedQuantities, String totalAmount) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.country = country;
@@ -30,14 +31,15 @@ public class Order {
         this.orderedProducts = orderedProducts;
         this.orderedQuantities = orderedQuantities;
         this.totalAmount = totalAmount;
+        this.uuid = UUID.randomUUID();
     }
 
-    public int getId() {
-        return id;
+    public UUID getUuid() {
+        return uuid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public String getFirstName() {
