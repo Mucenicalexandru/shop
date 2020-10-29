@@ -39,6 +39,7 @@ public class Checkout extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
+        String finalPrice = String.valueOf(req.getSession().getAttribute("finalPrice"));
 
         CartDao cartDataStore = ShoppingCartDaoMem.getInstance();
         OrderDao orderDataStore = OrderDaoMem.getInstance();
@@ -55,11 +56,9 @@ public class Checkout extends HttpServlet {
         String email = req.getParameter("email");
         List<Product> orderedProducts = cartDataStore.getAll();
         HashMap<Integer, Integer> quantitiesOrdered = cartDataStore.getQuantity();
-        String totalAmount = 500 + "USD";
 
 
-
-        Order order = new Order(uuid, firstName, lastName, country, address, postcode, town, phone, email, orderedProducts, quantitiesOrdered, totalAmount);
+        Order order = new Order(uuid, firstName, lastName, country, address, postcode, town, phone, email, orderedProducts, quantitiesOrdered, finalPrice);
         orderDataStore.add(order);
 
         resp.sendRedirect("/payment");

@@ -65,7 +65,7 @@
             </div>
             <div class="row">
                 <div class="text-center">
-                    <img src="https://i0.wp.com/www.ecommerce-nation.com/wp-content/uploads/2018/01/paypal.png?fit=1000%2C600&ssl=1" alt="codecool shop" width="180" height="180">
+                    <img src="https://icons.iconarchive.com/icons/designbolts/credit-card-payment/256/Master-Card-Blue-icon.png" alt="codecool shop" width="180" height="180">
                     <h1>Receipt</h1>
                 </div>
                 </span>
@@ -103,7 +103,7 @@
                             </p></td>
                         <td class="text-center">
                             <p>
-                                <strong th:text="${finalPrice} + '$'"></strong>
+                                <strong th:text="${finalPrice} - (${finalPrice} * 5 / 100) + '$'"></strong>
                             </p>
                             <p>
                                 <strong th:text="${finalPrice} * 5 / 100"></strong>
