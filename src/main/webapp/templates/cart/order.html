@@ -50,7 +50,7 @@
                         <strong>Shipping Address</strong>
                         <p th:text="${lastOrder.getAddress()}"></p>
                         <p th:text="${lastOrder.getPostcode()} + ', ' + ${lastOrder.getTown()}"></p>
-                        <abbr title="Phone" th:text="'Phone: ' + ${lastOrder.getPhoneNumber()}"></abbr>
+                        <abbr title="Phone" th:text="'Phone: ' + ${lastOrder.getPhoneNumber()}"></abbr><br>
                         <abbr title="email" th:text="'Email: ' + ${lastOrder.getEmail()}"></abbr>
                     </address>
                 </div>
@@ -59,7 +59,7 @@
                         <em th:text="'Date : ' + ${date}"></em>
                     </p>
                     <p>
-                        <em>Receipt #: 0000015</em>
+                        <em th:text="'Receipt : ' + ${receiptNumber}"></em>
                     </p>
                 </div>
             </div>
@@ -81,7 +81,7 @@
                     <tbody>
                     <tr th:each="orderedProduct : ${lastOrder.getOrderedProducts()}">
                         <td class="col-md-9"><em th:text="${orderedProduct.getName()}"></em></h4></td>
-                        <td class="col-md-1" style="text-align: center" >1</td>
+                        <td class="col-md-1" style="text-align: center" th:text="${lastOrder.getOrderedQuantities().get(orderedProduct.getId())}">1</td>
                         <td class="col-md-1 text-center" th:text="${orderedProduct.getPrice()}"></td>
                         <td class="col-md-1 text-center" th:text="${orderedProduct.getPrice()}"></td>
                     </tr>

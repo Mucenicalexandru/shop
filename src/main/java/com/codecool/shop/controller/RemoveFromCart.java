@@ -20,14 +20,13 @@ public class RemoveFromCart extends HttpServlet {
         // catch information from front
         String productId = req.getParameter("productId");
 
-
         // Connect to DB
         ProductDao productDataStore = ProductDaoMem.getInstance();
         CartDao cartDataStore = ShoppingCartDaoMem.getInstance();
 
-
         //Remove product from shopping cart
         cartDataStore.remove(productDataStore.find(Integer.parseInt(productId)));
+        cartDataStore.getQuantity().remove(Integer.parseInt(productId));
 
         //Redirect to shopping cart
         resp.sendRedirect("/cart");

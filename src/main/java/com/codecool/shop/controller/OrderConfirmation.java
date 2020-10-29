@@ -14,12 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 @WebServlet(urlPatterns = {"/order"})
 public class OrderConfirmation extends HttpServlet {
 
-    Date date = new Date();
-    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    private Date date = new Date();
+    private SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    private UUID uuid = UUID.randomUUID();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,9 +31,11 @@ public class OrderConfirmation extends HttpServlet {
         WebContext context = new WebContext(req, resp, req.getServletContext());
         OrderDao orderDataStore = OrderDaoMem.getInstance();
 
+
         context.setVariable("lastOrder", orderDataStore.getLast());
         context.setVariable("date", formatter.format(date));
         context.setVariable("finalPrice", finalPrice);
+        context.setVariable("receiptNumber", uuid);
 
         engine.process("cart/order.html", context, resp.getWriter());
     }

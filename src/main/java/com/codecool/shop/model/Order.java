@@ -1,5 +1,6 @@
 package com.codecool.shop.model;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class Order {
@@ -14,9 +15,10 @@ public class Order {
     private String phoneNumber;
     private String email;
     private List<Product> orderedProducts;
+    private HashMap<Integer, Integer> orderedQuantities;
     private String totalAmount;
 
-    public Order(int id, String firstName, String lastName, String country, String address, String postcode, String town, String phoneNumber, String email, List<Product> orderedProducts, String totalAmount) {
+    public Order(int id, String firstName, String lastName, String country, String address, String postcode, String town, String phoneNumber, String email, List<Product> orderedProducts, HashMap<Integer, Integer> orderedQuantities, String totalAmount) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.country = country;
@@ -26,6 +28,7 @@ public class Order {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.orderedProducts = orderedProducts;
+        this.orderedQuantities = orderedQuantities;
         this.totalAmount = totalAmount;
     }
 
@@ -115,5 +118,13 @@ public class Order {
 
     public void setTotalAmount(String totalAmount) {
         this.totalAmount = totalAmount;
+    }
+
+    public HashMap<Integer, Integer> getOrderedQuantities() {
+        return orderedQuantities;
+    }
+
+    public void setOrderedQuantities(HashMap<Integer, Integer> quantitiesOrdered) {
+        this.orderedQuantities = quantitiesOrdered;
     }
 }

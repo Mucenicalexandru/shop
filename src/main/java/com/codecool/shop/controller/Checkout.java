@@ -52,11 +52,13 @@ public class Checkout extends HttpServlet {
         String phone = req.getParameter("phone");
         String email = req.getParameter("email");
         List<Product> orderedProducts = cartDataStore.getAll();
+        HashMap<Integer, Integer> quantitiesOrdered = cartDataStore.getQuantity();
         String totalAmount = 500 + "USD";
 
 
 
-        Order order = new Order(orderDataStore.getAll().size(), firstName, lastName, country, address, postcode, town, phone, email, orderedProducts, totalAmount);
+        Order order = new Order(orderDataStore.getAll().size(), firstName, lastName, country, address, postcode, town, phone, email, orderedProducts, quantitiesOrdered, totalAmount);
+        System.out.println(order.getOrderedQuantities());
         orderDataStore.add(order);
 
         resp.sendRedirect("/payment");

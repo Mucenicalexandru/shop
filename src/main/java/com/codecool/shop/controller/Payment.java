@@ -13,6 +13,7 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = {"/payment"})
 public class Payment extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
