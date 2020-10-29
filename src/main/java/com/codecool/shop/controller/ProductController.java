@@ -29,10 +29,13 @@ public class ProductController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int itemsNumber = 0;
         ProductDao productDataStore = ProductDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
         CartDao cartDataStore = ShoppingCartDaoMem.getInstance();
+
+        HashMap<Integer, Integer> quantity = cartDataStore.getQuantity();
 
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
@@ -43,9 +46,18 @@ public class ProductController extends HttpServlet {
         String supplierId = req.getParameter("supplierId");
         String resetFilters = req.getParameter("resetFilters");
 
+
+
+        if(quantity.size()>0){
+            for(Object value: quantity.values()){
+                itemsNumber+= (int)value;
+            }
+        }
+
         context.setVariable("categories", productCategoryDataStore.getAll());
         context.setVariable("suppliers", supplierDataStore.getAll());
         context.setVariable("cartSize", cartDataStore.getAll().size());
+        context.setVariable("itemsNumber", itemsNumber);
 
         if(categoryId != null && Integer.parseInt(categoryId) >= 1){
             context.setVariable("products", productDataStore.getBy(productCategoryDataStore.find(Integer.parseInt(categoryId))));
