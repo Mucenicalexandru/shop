@@ -26,7 +26,12 @@ public class Payment extends HttpServlet {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
 
-        resp.sendRedirect("/order");
+        String fullNameOnCard = req.getParameter("username");
+        String cardNumber = req.getParameter("cardNumber");
+        String month = req.getParameter("month");
+        String year = req.getParameter("year");
+        String CVV = req.getParameter("cvv");
 
+        resp.sendRedirect("/order");
     }
 }

@@ -16,7 +16,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 @WebServlet(urlPatterns = {"/checkout"})
 public class Checkout extends HttpServlet {
@@ -25,6 +27,9 @@ public class Checkout extends HttpServlet {
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
+        String finalPrice = String.valueOf(req.getSession().getAttribute("finalPrice"));
+
+        context.setVariable("finalPrice", finalPrice);
 
         engine.process("cart/checkout.html", context, resp.getWriter());
     }
@@ -37,6 +42,7 @@ public class Checkout extends HttpServlet {
         CartDao cartDataStore = ShoppingCartDaoMem.getInstance();
         OrderDao orderDataStore = OrderDaoMem.getInstance();
 
+
         String lastName = req.getParameter("lastName");
         String firstName = req.getParameter("firstName");
         String country = req.getParameter("country");
@@ -46,14 +52,15 @@ public class Checkout extends HttpServlet {
         String phone = req.getParameter("phone");
         String email = req.getParameter("email");
         List<Product> orderedProducts = cartDataStore.getAll();
-        String totalAmount = "500 USD";
+        String totalAmount = 500 + "USD";
+
+
 
         Order order = new Order(orderDataStore.getAll().size(), firstName, lastName, country, address, postcode, town, phone, email, orderedProducts, totalAmount);
         orderDataStore.add(order);
 
         resp.sendRedirect("/payment");
 
-//        engine.process("cart/order.html", context, resp.getWriter());
 
     }
 }

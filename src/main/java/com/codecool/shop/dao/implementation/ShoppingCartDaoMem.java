@@ -6,12 +6,14 @@ import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ShoppingCartDaoMem implements CartDao {
 
     private List<Product> shoppingCart = new ArrayList<>();
     private static ShoppingCartDaoMem instance = null;
+    HashMap<Integer,Integer> quantity = new HashMap<>();
 
     public static ShoppingCartDaoMem getInstance() {
         if (instance == null) {
@@ -31,8 +33,13 @@ public class ShoppingCartDaoMem implements CartDao {
     }
 
     @Override
-    public void remove(int id) {
+    public void remove(Product product) {
+        shoppingCart.remove(product);
+    }
 
+    @Override
+    public HashMap<Integer, Integer> getQuantity() {
+        return quantity;
     }
 
     @Override

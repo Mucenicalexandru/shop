@@ -23,13 +23,15 @@ public class OrderConfirmation extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String finalPrice = String.valueOf(req.getSession().getAttribute("finalPrice"));
+
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
         OrderDao orderDataStore = OrderDaoMem.getInstance();
 
         context.setVariable("lastOrder", orderDataStore.getLast());
         context.setVariable("date", formatter.format(date));
-
+        context.setVariable("finalPrice", finalPrice);
 
         engine.process("cart/order.html", context, resp.getWriter());
     }
