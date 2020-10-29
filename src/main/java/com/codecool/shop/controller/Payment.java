@@ -28,14 +28,20 @@ public class Payment extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //        TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
-//        WebContext context = new WebContext(req, resp, req.getServletContext());
+        WebContext context = new WebContext(req, resp, req.getServletContext());
 
-        String fullNameOnCard = req.getParameter("username");
-        String cardNumber = req.getParameter("cardNumber");
-        String month = req.getParameter("month");
-        String year = req.getParameter("year");
-        String CVV = req.getParameter("cvv");
+        CartDao cartDataStore = ShoppingCartDaoMem.getInstance();
 
-        resp.sendRedirect("/order");
+        //TODO if cart is empty - popup and unable to go to payment. If empty stay on payment, else go to order summary
+//        if(cartDataStore.getAll().size() > 0){
+//            System.out.println("If");
+//            resp.sendRedirect("/order");
+//        }else{
+//            System.out.println("Else");
+//            resp.sendRedirect("/payment");
+//            context.setVariable("emptyCart", "True");
+//        }
+
+
     }
 }

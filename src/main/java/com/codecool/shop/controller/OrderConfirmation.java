@@ -42,6 +42,8 @@ public class OrderConfirmation extends HttpServlet {
 
 
         engine.process("cart/order.html", context, resp.getWriter());
+
+        //TODO when we press the order number, all the products from that order to appear
     }
 
 }
