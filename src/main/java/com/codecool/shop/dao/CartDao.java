@@ -11,6 +11,7 @@ public interface CartDao {
     void add(Product product);
     Product find(int id);
     void remove(Product product);
+    void clearCart();
     HashMap<Integer,Integer> getQuantity();
     List<Product> getAll();
     List<Product> getBy(Supplier supplier);

@@ -38,6 +38,12 @@ public class ShoppingCartDaoMem implements CartDao {
     }
 
     @Override
+    public void clearCart() {
+        shoppingCart = new ArrayList<>();
+        quantity = new HashMap<>();
+    }
+
+    @Override
     public HashMap<Integer, Integer> getQuantity() {
         return quantity;
     }

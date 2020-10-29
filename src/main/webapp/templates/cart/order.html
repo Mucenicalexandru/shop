@@ -83,7 +83,7 @@
                         <td class="col-md-9"><em th:text="${orderedProduct.getName()}"></em></h4></td>
                         <td class="col-md-1" style="text-align: center" th:text="${lastOrder.getOrderedQuantities().get(orderedProduct.getId())}">1</td>
                         <td class="col-md-1 text-center" th:text="${orderedProduct.getPrice()}"></td>
-                        <td class="col-md-1 text-center" th:text="${orderedProduct.getPrice()}"></td>
+                        <td class="col-md-1 text-center" th:text="${orderedProduct.getDefaultPrice()} * ${lastOrder.getOrderedQuantities().get(orderedProduct.getId())}"></td>
                     </tr>
 <!--                    <tr>-->
 <!--                        <td class="col-md-9"><em th:text="${lastOrder.getOrderedProducts().get(1).getName()}"></em></h4></td>-->
@@ -99,14 +99,14 @@
                                 <strong>Subtotal: </strong>
                             </p>
                             <p>
-                                <strong>Tax: </strong>
+                                <strong>Tax (5%): </strong>
                             </p></td>
                         <td class="text-center">
                             <p>
-                                <strong th:text="${finalPrice} + '$'">$6.94</strong>
+                                <strong th:text="${finalPrice} + '$'"></strong>
                             </p>
                             <p>
-                                <strong>$0.00</strong>
+                                <strong th:text="${finalPrice} * 5 / 100"></strong>
                             </p></td>
                     </tr>
                     <tr>

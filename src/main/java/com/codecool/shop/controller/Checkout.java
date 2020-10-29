@@ -58,7 +58,6 @@ public class Checkout extends HttpServlet {
 
 
         Order order = new Order(orderDataStore.getAll().size(), firstName, lastName, country, address, postcode, town, phone, email, orderedProducts, quantitiesOrdered, totalAmount);
-        System.out.println(order.getOrderedQuantities());
         orderDataStore.add(order);
 
         resp.sendRedirect("/payment");
