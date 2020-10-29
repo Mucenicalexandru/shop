@@ -97,12 +97,7 @@
                         <div class="select-outline position-relative w-100">
                             <select class="mdb-select md-form md-outline" name="country" required>
                                 <option value="" disabled selected>Choose your option</option>
-                                <option value="Europe">Europe</option>
-                                <option value="North America">North America</option>
-                                <option value="South America">South America</option>
-                                <option value="Africa">Africa</option>
-                                <option value="Asia">Asia</option>
-                                <option value="Australia">Australia</option>
+                                <option th:each="country : ${countries}" th:value="${country}" th:text="${country}">Europe</option>
                             </select>
                             <label>Country</label>
                         </div>

@@ -5,8 +5,10 @@ import com.codecool.shop.dao.CartDao;
 import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.dao.implementation.OrderDaoMem;
 import com.codecool.shop.dao.implementation.ShoppingCartDaoMem;
+import com.codecool.shop.model.Countries;
 import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Product;
+import com.google.gson.Gson;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -15,22 +17,30 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 @WebServlet(urlPatterns = {"/checkout"})
 public class Checkout extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        List<String> countries = new ArrayList<>();
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
         String finalPrice = String.valueOf(req.getSession().getAttribute("finalPrice"));
 
+        String[] locales = Locale.getISOCountries();
+        for(String country : locales){
+            Locale obj = new Locale("", country);
+            countries.add(obj.getDisplayCountry());
+        }
+
+
         context.setVariable("finalPrice", finalPrice);
+        context.setVariable("countries", countries);
 
         engine.process("cart/checkout.html", context, resp.getWriter());
     }
@@ -58,7 +68,19 @@ public class Checkout extends HttpServlet {
         HashMap<Integer, Integer> quantitiesOrdered = cartDataStore.getQuantity();
 
 
+
         Order order = new Order(uuid, firstName, lastName, country, address, postcode, town, phone, email, orderedProducts, quantitiesOrdered, finalPrice);
+//        Gson gson = new Gson();
+//
+//        try {
+//            FileWriter fileWriter = new FileWriter("src/main/webapp/resources/order.json");
+//            gson.toJson(order, fileWriter);
+//            fileWriter.close();
+//        }catch (IOException e){
+//            e.printStackTrace();
+//        }
+
+
         orderDataStore.add(order);
 
         resp.sendRedirect("/payment");
