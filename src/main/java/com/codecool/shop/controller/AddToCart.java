@@ -32,11 +32,9 @@ public class AddToCart extends HttpServlet {
         if (!shoppingCartWithDuplicates.contains(productDataStore.find(productId))) {
             cartDataStore.add(productDataStore.find(productId));
             quantity.put(productId, 1);
-            System.out.println("if " + quantity);
         } else {
             int a = quantity.get(productId) + 1;
             quantity.replace(productId, a);
-
         }
 
         if (buttonPressed != null) {

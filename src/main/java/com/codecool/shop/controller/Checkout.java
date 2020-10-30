@@ -7,6 +7,9 @@ import com.codecool.shop.dao.implementation.OrderDaoMem;
 import com.codecool.shop.dao.implementation.ShoppingCartDaoMem;
 import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Product;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -15,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
@@ -33,7 +37,6 @@ public class Checkout extends HttpServlet {
             countries.add(obj.getDisplayCountry());
         }
 
-
         context.setVariable("finalPrice", finalPrice);
         context.setVariable("countries", countries);
 
@@ -49,7 +52,6 @@ public class Checkout extends HttpServlet {
         CartDao cartDataStore = ShoppingCartDaoMem.getInstance();
         OrderDao orderDataStore = OrderDaoMem.getInstance();
 
-
         UUID uuid = UUID.randomUUID();
         String lastName = req.getParameter("lastName");
         String firstName = req.getParameter("firstName");
@@ -63,25 +65,22 @@ public class Checkout extends HttpServlet {
         HashMap<Integer, Integer> quantitiesOrdered = cartDataStore.getQuantity();
 
 
-
         Order order = new Order(uuid, firstName, lastName, country, address, postcode, town, phone, email, orderedProducts, quantitiesOrdered, finalPrice);
 
-        //TODO object to json using gson
-//        Gson gson = new Gson();
-//
-//        try {
-//            FileWriter fileWriter = new FileWriter("src/main/webapp/resources/order.json");
-//            gson.toJson(order, fileWriter);
-//            fileWriter.close();
-//        }catch (IOException e){
-//            e.printStackTrace();
-//        }
 
+        //TODO object to json using gson
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+
+        try {
+            FileWriter fileWriter = new FileWriter("resources/order.json");
+            gson.toJson(order, fileWriter);
+            fileWriter.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
 
         orderDataStore.add(order);
 
         resp.sendRedirect("/payment");
-
-
     }
 }
