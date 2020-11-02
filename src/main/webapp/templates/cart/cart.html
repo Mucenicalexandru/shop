@@ -43,7 +43,6 @@
             <a class="nav-link" th:href="@{/index}">Home <span class="sr-only">(current)</span></a>
         </li>
     </ul>
-
 </nav>
 
 <div class="container">
@@ -61,13 +60,15 @@
                 <td>
                     <div>
                         <div class="number-input md-number-input">
+                            <form action="/cart" method="post">
+<!--                            <button class="plus increase" id="minusBtn"><a th:href="@{/removeFromCart(productId=${product.getId()},MinusButton='True')}">-</a></button>-->
+                                <input class="quantity" min="1" name="quantity" th:value="${quantity.get(product.getId())}" type="number" id="modifiedQuantity">
+                                <input type="hidden" th:value="${product.getId()}" name="productId">
+                                <button class="plus increase" id="minusBtn" name="button" value="-">-</button>
+                                <button class="plus increase" id="plusBtn" name="button" value="+">+</button>
+<!--                            <button class="plus increase" id="plusBtn"><a th:href="@{/addToCart(productId=${product.getId()},button='True')}">+</a></button>-->
+                            </form>
 
-<!--                            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"-->
-<!--                                    class="minus decrease" id="minusBtn">-</button>-->
-                            <button class="plus increase" id="minusBtn"><a th:href="@{/removeFromCart(productId=${product.getId()},MinusButton='True')}">-</a></button>
-                            <input class="quantity" min="1" name="quantity" th:value="${quantity.get(product.getId())}" type="number" id="modifiedQuantity">
-                            <!--                                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"-->
-                            <button class="plus increase" id="plusBtn"><a th:href="@{/addToCart(productId=${product.getId()},button='True')}">+</a></button>
                         </div>
                     </div>
                 </td>
@@ -98,18 +99,6 @@
         </div>
     </div>
 </div>
-
-
-<!--<div class="mb-3">-->
-<!--    <div class="pt-4">-->
-
-<!--        <h5 class="mb-4">Expected shipping delivery</h5>-->
-
-<!--        <p class="mb-0"> Thu., 12.03. - Mon., 16.03.</p>-->
-<!--    </div>-->
-<!--</div>-->
-
-
 
 </body>
 </html>
