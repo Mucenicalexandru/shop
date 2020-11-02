@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @WebServlet(urlPatterns = {"/", "/index"})
@@ -77,4 +78,28 @@ public class ProductController extends HttpServlet {
         engine.process("product/index.html", context, resp.getWriter());
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String buttonPressed = req.getParameter("button");
+        int productId = Integer.parseInt(req.getParameter("productId"));
+
+        ProductDao productDataStore = ProductDaoMem.getInstance();
+        CartDao cartDataStore = ShoppingCartDaoMem.getInstance();
+        HashMap<Integer, Integer> quantity = cartDataStore.getQuantity();
+        List<Product> shoppingCartWithDuplicates = cartDataStore.getAll();
+
+
+        if(buttonPressed.equals("add")){
+            if (!shoppingCartWithDuplicates.contains(productDataStore.find(productId))) {
+                cartDataStore.add(productDataStore.find(productId));
+                quantity.put(productId, 1);
+            } else {
+                int a = quantity.get(productId) + 1;
+                quantity.replace(productId, a);
+            }
+        }
+
+
+        resp.sendRedirect("/index");
+    }
 }

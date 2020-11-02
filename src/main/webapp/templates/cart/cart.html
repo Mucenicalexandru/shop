@@ -57,28 +57,21 @@
                 <td th:text="${product.getName()}"></td>
                 <td th:text="${product.getDefaultPrice()}" id="productPrice"></td>
                 <td th:text="${quantity.get(product.getId())}"></td>
+                <form action="/cart" method="post">
                 <td>
                     <div>
                         <div class="number-input md-number-input">
-                            <form action="/cart" method="post">
-<!--                            <button class="plus increase" id="minusBtn"><a th:href="@{/removeFromCart(productId=${product.getId()},MinusButton='True')}">-</a></button>-->
                                 <input class="quantity" min="1" name="quantity" th:value="${quantity.get(product.getId())}" type="number" id="modifiedQuantity">
                                 <input type="hidden" th:value="${product.getId()}" name="productId">
-                                <button class="plus increase" id="minusBtn" name="button" value="-">-</button>
-                                <button class="plus increase" id="plusBtn" name="button" value="+">+</button>
-<!--                            <button class="plus increase" id="plusBtn"><a th:href="@{/addToCart(productId=${product.getId()},button='True')}">+</a></button>-->
-                            </form>
-
+                                <button class="plus increase" name="button" value="-">-</button>
+                                <button class="plus increase" name="button" value="+">+</button>
                         </div>
                     </div>
                 </td>
                 <td>
-                    <a th:href="@{/removeFromCart(productId=${product.getId()})}">
-                        <button class="btn btn-primary">
-                            Remove
-                        </button>
-                    </a>
+                        <button class="btn btn-primary" name="button" value="remove">Remove</button>
                 </td>
+                </form>
             </tr>
         </table>
         <div class="total-container">

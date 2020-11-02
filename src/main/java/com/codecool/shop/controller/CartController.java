@@ -74,6 +74,9 @@ public class CartController extends HttpServlet {
                 quantityNumber--;
                 quantity.replace(productId,quantityNumber);
             }
+        }else if(buttonPressed.equals("remove")){
+            cartDataStore.remove(productDataStore.find(productId));
+            quantity.remove(productId);
         }
 
         resp.sendRedirect("/cart");

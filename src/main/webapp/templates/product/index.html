@@ -131,7 +131,10 @@
                     </div>
 
                     <div class="card-text">
-                        <a class="btn btn-primary" th:href="@{/addToCart (productId=${prod.id})}">Add to cart</a>
+                        <form action="/index" method="post">
+                            <input type="hidden" name="productId" th:value="${prod.getId()}">
+                            <button class="btn btn-primary" name="button" value="add">Add to cart</button>
+                        </form>
                     </div>
 
                 </div>
