@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="author" content="Codecool" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <title>Codecool Shop</title>
+
+    <!-- Bootstrap components -->
+    <!-- Latest compiled and minified Jquery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+    <!--Latest compiled and minified Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- End of Bootstrap components -->
+
+    <link rel="stylesheet" type="text/css" href="/static/css/custom.css" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-light">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+            <a class="nav-link" th:href="@{/index}">Home <span class="sr-only">(current)</span></a>
+        </li>
+    </ul>
+    <div class="collapse navbar-collapse" id="basicExampleNav6">
+
+        <!-- Right -->
+        <ul class="navbar-nav nav-flex-icons ml-auto">
+            <li class="nav-item dropdown notifications-nav pr-md-3">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink151" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="true">
+                    <p class="badge badge-pill bg-danger" th:text="${itemsNumber}" style="color: white"></p>
+                    <span><i class="fas fa-shopping-cart pl-0"></i></span>
+                </a>
+            </li>
+        </ul>
+
+    </div>
+
+</nav>
+
+<!--Section: Block Content-->
+<section class="mb-5">
+
+    <div class="row">
+        <div class="col-md-6 mb-4 mb-md-0">
+
+            <div id="mdb-lightbox-ui"></div>
+
+            <div class="mdb-lightbox">
+
+                <div class="row product-gallery mx-1">
+
+                    <div class="col-12 mb-0">
+                        <figure class="view overlay rounded z-depth-1 main-img">
+                            <a href="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg"
+                               data-size="710x823">
+                                <img width="800" height="600" th:attr="src='/static/img/product_' + ${product.getId()} + '.jpg'" alt="" />
+                            </a>
+                        </figure>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-md-6">
+
+            <h5 th:text="${product.getName()}"></h5>
+            <p class="mb-2 text-muted text-uppercase small" th:text="${product.getProductCategory().getName()}"></p>
+            <ul class="rating">
+                <li>
+                    <i class="fas fa-star fa-sm text-primary"></i>
+                    <i class="fas fa-star fa-sm text-primary"></i>
+                    <i class="fas fa-star fa-sm text-primary"></i>
+                    <i class="fas fa-star fa-sm text-primary"></i>
+                    <i class="far fa-star fa-sm text-primary"></i>
+                </li>
+            </ul>
+            <p><span class="mr-1"><strong th:text="${product.price}"></strong></span></p>
+            <p class="pt-1" th:text="${product.getName()}"></p>
+            <div class="table-responsive">
+                <table class="table table-sm table-borderless mb-0">
+                    <tbody>
+                    <tr>
+                        <th class="pl-0 w-25" scope="row"><strong>Make</strong></th>
+                        <td th:text="${product.getSupplier().getName()}"></td>
+                    </tr>
+                    <tr>
+                        <th class="pl-0 w-25" scope="row"><strong>Color</strong></th>
+                        <td>Black</td>
+                    </tr>
+                    <tr>
+                        <th class="pl-0 w-25" scope="row"><strong>Delivery</strong></th>
+                        <td>USA, Europe</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <hr>
+<!--the action is on /index where we already have the button values and the hidden input parameter-->
+            <form th:action="@{/index}" method="post">
+                <input type="hidden" th:value="${product.id}" name="productId">
+                <button type="submit" name="button" value="add" class="btn btn-primary btn-md mr-1 mb-2"><i class="fas fa-shopping-cart pr-2"></i>Add to cart</button>
+            </form>
+        </div>
+    </div>
+
+</section>
+<!--Section: Block Content-->
+</body>
+</html>

@@ -53,6 +53,7 @@ public class ProductController extends HttpServlet {
                 itemsNumber+= (int)value;
             }
         }
+        req.getSession().setAttribute("itemsNumber", itemsNumber);
 
         context.setVariable("categories", productCategoryDataStore.getAll());
         context.setVariable("suppliers", supplierDataStore.getAll());

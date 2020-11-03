@@ -120,7 +120,7 @@
     <div id="products" class="row">
         <div class="col col-sm-12 col-md-6 col-lg-4" th:each="prod,iterStat : ${products}">
             <div class="card">
-                <img width="400" height="300" class="" th:attr="src='/static/img/product_' + ${prod.id} + '.jpg'" alt="" />
+                <a th:href="@{/index/details(id=${prod.id})}"><img width="400" height="300" class="zoom" th:attr="src='/static/img/product_' + ${prod.id} + '.jpg'" alt="" /></a>
                 <div class="card-header">
                     <h4 class="card-title" th:text="${prod.name}"></h4>
                     <p class="card-text" th:text="${prod.description}"></p>
