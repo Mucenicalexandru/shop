@@ -103,7 +103,7 @@
                             </p></td>
                         <td class="text-center">
                             <p>
-                                <strong th:text="${finalPrice} - (${finalPrice} * 5 / 100) + '$'"></strong>
+                                <strong th:text="${finalPrice} - (${finalPrice} * 5 / 100) + 'EUR'"></strong>
                             </p>
                             <p>
                                 <strong th:text="${finalPrice} * 5 / 100"></strong>
@@ -113,7 +113,7 @@
                         <td>   </td>
                         <td>   </td>
                         <td class="text-right"><h4><strong>Total: </strong></h4></td>
-                        <td class="text-center text-danger" th:text="${finalPrice} + '$'"><h4><strong></strong></h4></td>
+                        <td class="text-center text-danger" th:text="${finalPrice} + 'EUR'"><h4><strong></strong></h4></td>
                     </tr>
                     </tbody>
                 </table>
