@@ -3,13 +3,12 @@ package com.codecool.shop.controller;
 import com.codecool.shop.config.TemplateEngineUtil;
 import com.codecool.shop.dao.CartDao;
 import com.codecool.shop.dao.OrderDao;
+import com.codecool.shop.dao.implementation.CartDaoMem;
 import com.codecool.shop.dao.implementation.OrderDaoMem;
-import com.codecool.shop.dao.implementation.ShoppingCartDaoMem;
 import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Product;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.annotations.Expose;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -45,11 +44,11 @@ public class Checkout extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
-        WebContext context = new WebContext(req, resp, req.getServletContext());
+
         String finalPrice = String.valueOf(req.getSession().getAttribute("finalPrice"));
 
-        CartDao cartDataStore = ShoppingCartDaoMem.getInstance();
+
+        CartDao cart = CartDaoMem.getInstance();
         OrderDao orderDataStore = OrderDaoMem.getInstance();
 
         UUID uuid = UUID.randomUUID();
@@ -61,8 +60,8 @@ public class Checkout extends HttpServlet {
         String town = req.getParameter("town");
         String phone = req.getParameter("phone");
         String email = req.getParameter("email");
-        List<Product> orderedProducts = cartDataStore.getAll();
-        HashMap<Integer, Integer> quantitiesOrdered = cartDataStore.getQuantity();
+        List<Product> orderedProducts = cart.getAll();
+        HashMap<Integer, Integer> quantitiesOrdered = cart.getQuantity();
 
 
         Order order = new Order(uuid, firstName, lastName, country, address, postcode, town, phone, email, orderedProducts, quantitiesOrdered, finalPrice);

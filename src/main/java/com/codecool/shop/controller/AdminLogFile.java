@@ -24,5 +24,6 @@ public class AdminLogFile extends HttpServlet {
         context.setVariable("orderList", orderDataStore.getAll());
 
         engine.process("admin/logfile.html", context, resp.getWriter());
+        //TODO when we press the order number, all the products from that order to appear
     }
 }

@@ -8,29 +8,17 @@ import java.util.UUID;
 
 public class Order {
 
-    @Expose(serialize = true)
     private UUID uuid;
-    @Expose(serialize = true)
     private String firstName;
-    @Expose(serialize = true)
     private String lastName;
-    @Expose(serialize = true)
     private String country;
-    @Expose(serialize = true)
     private String address;
-    @Expose(serialize = true)
     private String postcode;
-    @Expose(serialize = true)
     private String town;
-    @Expose(serialize = true)
     private String phoneNumber;
-    @Expose(serialize = true)
     private String email;
-    @Expose(serialize = true)
     private List<Product> orderedProducts;
-    @Expose(serialize = true)
     private HashMap<Integer, Integer> orderedQuantities;
-    @Expose(serialize = true)
     private String totalAmount;
 
     public Order(UUID uuid, String firstName, String lastName, String country, String address, String postcode, String town, String phoneNumber, String email, List<Product> orderedProducts, HashMap<Integer, Integer> orderedQuantities, String totalAmount) {

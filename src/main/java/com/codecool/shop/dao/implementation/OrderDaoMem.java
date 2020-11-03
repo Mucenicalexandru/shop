@@ -4,12 +4,12 @@ import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.model.Order;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
+//Singleton
 public class OrderDaoMem implements OrderDao {
 
-    private List<Order> data = new ArrayList<>(); // phone, tablet
+    private List<Order> data = new ArrayList<>();
     private static OrderDaoMem instance = null;
 
     /* A private Constructor prevents any other class from instantiating.

@@ -1,18 +1,1 @@
-{
-  "uuid": "5ac61867-1307-4d00-bbdc-2b391e792475",
-  "firstName": "Alexandru",
-  "lastName": "Mucenic",
-  "country": "Antigua \u0026 Barbuda",
-  "address": "2525",
-  "postcode": "900001",
-  "town": "Constanta",
-  "phoneNumber": "582828",
-  "email": "mucenic.alexandru@yahoo.com",
-  "orderedProducts": [
-    {}
-  ],
-  "orderedQuantities": {
-    "2": 1
-  },
-  "totalAmount": "479.0"
-}
+{}
