@@ -104,7 +104,7 @@
             </li>
             <li class="nav-item pl-2 mb-2 mb-md-0">
                 <a href="#!" type="button"
-                   class="btn btn-outline-info btn-md btn-rounded btn-navbar waves-effect waves-light">
+                   class="btn btn-outline-info btn-md btn-rounded btn-navbar waves-effect waves-light" data-toggle="modal" data-target="#modalRegisterForm">
                     Sign up
                 </a>
             </li>
@@ -209,6 +209,94 @@
                 </div>
                 <div class="modal-footer d-flex justify-content-center py-4">
                     <button class="btn btn-primary">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<!--Section: Block Content-->
+
+<!--Section: Block Content-->
+<section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mx-auto">Sign Up</h5>
+                    <button type="button" class="close ml-0" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+<!--                    First Name-->
+                    <div class="md-form md-outline">
+                        <i class="fas fa-user prefix"></i>
+                        <label data-error="wrong" data-success="right" for="firstName">First Name</label>
+                        <input type="text" id="firstName" class="form-control">
+                    </div>
+
+<!--                    Last Name-->
+                    <div class="md-form md-outline">
+                        <i class="fas fa-user prefix"></i>
+                        <label data-error="wrong" data-success="right" for="lastName">Last name</label>
+                        <input type="text" id="lastName" class="form-control">
+                    </div>
+
+<!--                    Country-->
+                    <div class="md-form md-outline">
+                        <i class="fas fa-globe-europe"></i>
+                        <label data-error="wrong" data-success="right" for="country">Country</label>
+                        <input type="text" id="country" class="form-control">
+                    </div>
+
+<!--                    Address-->
+                    <div class="md-form md-outline">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <label data-error="wrong" data-success="right" for="address">Address</label>
+                        <input type="text" id="address" class="form-control">
+                    </div>
+
+<!--                    Postcode-->
+                    <div class="md-form md-outline">
+                        <i class="fas fa-sort-numeric-down"></i>
+                        <label data-error="wrong" data-success="right" for="postcode">Postcode</label>
+                        <input type="text" id="postcode" class="form-control">
+                    </div>
+
+<!--                    Town-->
+                    <div class="md-form md-outline">
+                        <i class="fas fa-map-maker"></i>
+                        <label data-error="wrong" data-success="right" for="town">Town</label>
+                        <input type="text" id="town" class="form-control">
+                    </div>
+
+<!--                    Phone-->
+                    <div class="md-form md-outline">
+                        <i class="fas fa-phone-square-alt"></i>
+                        <label data-error="wrong" data-success="right" for="phone">Phone</label>
+                        <input type="text" id="phone" class="form-control">
+                    </div>
+
+<!--                    Email-->
+                    <div class="md-form md-outline">
+                        <i class="fas fa-envelope prefix"></i>
+                        <label data-error="wrong" data-success="right" for="modalRegisterForm-email">Email</label>
+                        <input type="email" id="modalRegisterForm-email" class="form-control">
+                    </div>
+
+<!--                    Password-->
+                    <div class="md-form md-outline">
+                        <i class="fas fa-lock prefix"></i>
+                        <label data-error="wrong" data-success="right" for="modalRegisterForm-password">Your password</label>
+                        <input type="password" id="modalRegisterForm-password" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button class="btn btn-primary">Sign Up</button>
                 </div>
             </div>
         </div>
