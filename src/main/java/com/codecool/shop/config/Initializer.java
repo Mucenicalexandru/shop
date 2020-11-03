@@ -88,14 +88,14 @@ public class Initializer implements ServletContextListener {
         productDataStore.add(new Product("Rolls-Royce Wraith DAS3", 179700, "EUR", "Lang FINAL EDITION, Magic Skydak, Enter", cars, lamborghini));
         productDataStore.add(new Product("Rolls-Royce Cullinan", 328300, "EUR", "Lang FINAL EDITION, Magic Skydak, Enter", cars, lamborghini));
 
-        productDataStore.add(new Product("Land Rover Range Rover 5.0 V8 SC", 285000, "EUR", "Lang FINAL EDITION, Magic Skydak, Enter", cars, lamborghini));
-        productDataStore.add(new Product("Land Rover Range Rover 5.0 V8", 221300, "EUR", "Lang FINAL EDITION, Magic Skydak, Enter", cars, lamborghini));
-        productDataStore.add(new Product("Land Rover Range Rover 3.0 V6 ", 211800, "EUR", "Lang FINAL EDITION, Magic Skydak, Enter", cars, lamborghini));
+        productDataStore.add(new Product("Land Rover Range Rover 5.0 V8 SC", 285000, "EUR", "Lang FINAL EDITION, Magic Skydak, Enter", cars, landRover));
+        productDataStore.add(new Product("Land Rover Range Rover 5.0 V8", 221300, "EUR", "Lang FINAL EDITION, Magic Skydak, Enter", cars, landRover));
+        productDataStore.add(new Product("Land Rover Range Rover 3.0 V6 ", 211800, "EUR", "Lang FINAL EDITION, Magic Skydak, Enter", cars, landRover));
 
 
-        productDataStore.add(new Product("Porsche Cayenne Turbo Coupe 4.0", 171900, "EUR", "Lang FINAL EDITION, Magic Skydak, Enter", cars, lamborghini));
-        productDataStore.add(new Product("Porsche Cayman 718 GTS", 90880, "EUR", "Lang FINAL EDITION, Magic Skydak, Enter", cars, lamborghini));
-        productDataStore.add(new Product("Porsche 718 Boxster GTS 4.0", 88980, "EUR", "Lang FINAL EDITION, Magic Skydak, Enter", cars, lamborghini));
+        productDataStore.add(new Product("Porsche Cayenne Turbo Coupe 4.0", 171900, "EUR", "Lang FINAL EDITION, Magic Skydak, Enter", cars, porsche));
+        productDataStore.add(new Product("Porsche Cayman 718 GTS", 90880, "EUR", "Lang FINAL EDITION, Magic Skydak, Enter", cars, porsche));
+        productDataStore.add(new Product("Porsche 718 Boxster GTS 4.0", 88980, "EUR", "Lang FINAL EDITION, Magic Skydak, Enter", cars, porsche));
 
     }
 }
