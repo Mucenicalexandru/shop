@@ -13,5 +13,4 @@ public interface CartDao {
     HashMap<Integer, Integer> getQuantity();
     int getCartId();
 
-
 }

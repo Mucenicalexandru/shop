@@ -51,6 +51,9 @@ public class Initializer implements ServletContextListener {
         Supplier porsche = new Supplier("Porsche", "Porsche AG, usually shortened to Porsche AG is a German automobile manufacturer specializing in high-performance sports cars");
         supplierDataStore.add(porsche);
 
+        Supplier rolls = new Supplier("Rolls Royce", "Porsche AG, usually shortened to Porsche AG is a German automobile manufacturer specializing in high-performance sports cars");
+        supplierDataStore.add(rolls);
+
 
         //setting up a new product category
         ProductCategory cars = new ProductCategory("Cars", "Transport", "A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display.");
@@ -84,9 +87,9 @@ public class Initializer implements ServletContextListener {
         productDataStore.add(new Product("Lamborghini Huracan EVO", 219900, "EUR", "Lang FINAL EDITION, Magic Skydak, Enter", cars, lamborghini));
         productDataStore.add(new Product("Lamborghini Aventador Miura Edition", 433700, "EUR", "Lang FINAL EDITION, Magic Skydak, Enter", cars, lamborghini));
 
-        productDataStore.add(new Product("Rolls-Royce Wraith", 189900, "EUR", "Lang FINAL EDITION, Magic Skydak, Enter", cars, lamborghini));
-        productDataStore.add(new Product("Rolls-Royce Wraith DAS3", 179700, "EUR", "Lang FINAL EDITION, Magic Skydak, Enter", cars, lamborghini));
-        productDataStore.add(new Product("Rolls-Royce Cullinan", 328300, "EUR", "Lang FINAL EDITION, Magic Skydak, Enter", cars, lamborghini));
+        productDataStore.add(new Product("Rolls-Royce Wraith", 189900, "EUR", "Lang FINAL EDITION, Magic Skydak, Enter", cars, rolls));
+        productDataStore.add(new Product("Rolls-Royce Wraith DAS3", 179700, "EUR", "Lang FINAL EDITION, Magic Skydak, Enter", cars, rolls));
+        productDataStore.add(new Product("Rolls-Royce Cullinan", 328300, "EUR", "Lang FINAL EDITION, Magic Skydak, Enter", cars, rolls));
 
         productDataStore.add(new Product("Land Rover Range Rover 5.0 V8 SC", 285000, "EUR", "Lang FINAL EDITION, Magic Skydak, Enter", cars, landRover));
         productDataStore.add(new Product("Land Rover Range Rover 5.0 V8", 221300, "EUR", "Lang FINAL EDITION, Magic Skydak, Enter", cars, landRover));
