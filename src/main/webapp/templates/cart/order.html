@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="author" content="Codecool" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <title>Checkout</title>
+
+    <!-- Bootstrap components -->
+    <!-- Latest compiled and minified Jquery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+    <!--Latest compiled and minified Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- End of Bootstrap components -->
+
+    <link rel="stylesheet" type="text/css" href="/static/css/custom.css" />
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-light">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+            <a class="nav-link" th:href="@{/index}">Home <span class="sr-only">(current)</span></a>
+        </li>
+    </ul>
+
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="well col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <address>
+                        <strong>Shipping Address</strong>
+                        <p th:text="${lastOrder.getAddress()}"></p>
+                        <p th:text="${lastOrder.getPostcode()} + ', ' + ${lastOrder.getTown()}"></p>
+                        <abbr title="Phone" th:text="'Phone: ' + ${lastOrder.getPhoneNumber()}"></abbr><br>
+                        <abbr title="email" th:text="'Email: ' + ${lastOrder.getEmail()}"></abbr>
+                    </address>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 text-right">
+                    <p>
+                        <em th:text="'Date : ' + ${date}"></em>
+                    </p>
+                    <p>
+                        <em th:text="'Receipt : ' + ${lastOrder.getUuid()}"></em>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="text-center">
+                    <img src="https://icons.iconarchive.com/icons/designbolts/credit-card-payment/256/Master-Card-Blue-icon.png" alt="codecool shop" width="180" height="180">
+                    <h1>Receipt</h1>
+                </div>
+                </span>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>#</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="orderedProduct : ${lastOrder.getOrderedProducts()}">
+                        <td class="col-md-9"><em th:text="${orderedProduct.getName()}"></em></h4></td>
+                        <td class="col-md-1" style="text-align: center" th:text="${lastOrder.getOrderedQuantities().get(orderedProduct.getId())}">1</td>
+                        <td class="col-md-1 text-center" th:text="${orderedProduct.getPrice()}"></td>
+                        <td class="col-md-1 text-center" th:text="${orderedProduct.getDefaultPrice()} * ${lastOrder.getOrderedQuantities().get(orderedProduct.getId())}"></td>
+                    </tr>
+<!--                    <tr>-->
+<!--                        <td class="col-md-9"><em th:text="${lastOrder.getOrderedProducts().get(1).getName()}"></em></h4></td>-->
+<!--                        <td class="col-md-1" style="text-align: center"> 1 </td>-->
+<!--                        <td class="col-md-1 text-center" th:text="${lastOrder.getOrderedProducts().get(1).getPrice()}"></td>-->
+<!--                        <td class="col-md-1 text-center" th:text="${lastOrder.getOrderedProducts().get(1).getPrice()}"></td>-->
+<!--                    </tr>-->
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td class="text-right">
+                            <p>
+                                <strong>Subtotal: </strong>
+                            </p>
+                            <p>
+                                <strong>Tax (5%): </strong>
+                            </p></td>
+                        <td class="text-center">
+                            <p>
+                                <strong th:text="${finalPrice} - (${finalPrice} * 5 / 100) + 'EUR'"></strong>
+                            </p>
+                            <p>
+                                <strong th:text="${finalPrice} * 5 / 100"></strong>
+                            </p></td>
+                    </tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td class="text-right"><h4><strong>Total: </strong></h4></td>
+                        <td class="text-center text-danger" th:text="${finalPrice} + 'EUR'"><h4><strong></strong></h4></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <h1 style="text-align:center;">
+                        Thank you for your order.
+                    </h1>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a th:href="@{/index}"><button type="submit" class="btn btn-primary">Go back</button></a>
+    <button type="submit" class="btn btn-primary">Download receipt</button>
+
+
+</body>
+</html>

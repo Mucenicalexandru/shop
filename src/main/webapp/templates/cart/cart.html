@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="author" content="Codecool" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <title>Codecool Shop</title>
+
+    <!-- Bootstrap components -->
+    <!-- Latest compiled and minified Jquery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+    <!--Latest compiled and minified Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- End of Bootstrap components -->
+
+    <link rel="stylesheet" type="text/css" href="/static/css/custom.css" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-md navbar-light">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+            <a class="nav-link" th:href="@{/index}">Home <span class="sr-only">(current)</span></a>
+        </li>
+    </ul>
+</nav>
+
+<div class="container">
+    <div class="card">
+        <table class="table" style="text-align: center">
+            <tr>
+                <th>Product name</th>
+                <th>Product price</th>
+                <th>Quantity</th>
+            </tr>
+            <tr th:each="product: ${cart}">
+                <td th:text="${product.getName()}"></td>
+                <td th:text="${product.getDefaultPrice()}" id="productPrice"></td>
+                <td th:text="${quantity.get(product.getId())}"></td>
+                <form action="/cart" method="post">
+                <td>
+                    <div>
+                        <div class="number-input md-number-input">
+                                <input class="quantity" min="1" name="quantity" th:value="${quantity.get(product.getId())}" type="number" id="modifiedQuantity">
+                                <input type="hidden" th:value="${product.getId()}" name="productId">
+                                <button class="plus increase" name="button" value="-">-</button>
+                                <button class="plus increase" name="button" value="+">+</button>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                        <button class="btn btn-primary" name="button" value="remove">Remove</button>
+                </td>
+                </form>
+            </tr>
+        </table>
+        <div class="total-container">
+            <h3>Total:  </h3>
+            <h3 th:text="${totalOrderAmount}" id="total"></h3>
+        </div>
+    </div>
+    <div class="cart-buttons">
+        <div th:if="${cart.size() > 0}">
+            <a th:href="@{/checkout}">
+                <button class="btn btn-primary" style="margin: 5px">Proceed to checkout</button>
+            </a>
+        </div>
+        <div>
+            <a th:href="@{/index}">
+                <button class="btn btn-primary" style="margin: 5px">Go back</button>
+            </a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
