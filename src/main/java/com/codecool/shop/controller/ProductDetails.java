@@ -29,6 +29,7 @@ public class ProductDetails extends HttpServlet {
         context.setVariable("itemsNumber", itemsNumber);
 
         engine.process("product/details.html", context, resp.getWriter());
+
     }
 
 }

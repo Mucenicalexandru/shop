@@ -14,11 +14,14 @@ import org.thymeleaf.context.WebContext;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 @WebServlet(urlPatterns = {"/", "/index"})
 public class ProductController extends HttpServlet {
@@ -54,6 +57,10 @@ public class ProductController extends HttpServlet {
             }
         }
         req.getSession().setAttribute("itemsNumber", itemsNumber);
+
+//        Cookie ck = new Cookie("user", "Alex");
+//        resp.addCookie(ck);
+//        System.out.println(ck.getName());
 
         context.setVariable("categories", productCategoryDataStore.getAll());
         context.setVariable("suppliers", supplierDataStore.getAll());
