@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS orders;
 
 
 CREATE TABLE registered_users (
-                       id       INTEGER PRIMARY KEY NOT NULL,
+                       id      serial PRIMARY KEY NOT NULL,
                        first_name    VARCHAR(200) NOT NULL,
                        last_name     VARCHAR(200) NOT NULL,
                        country VARCHAR(200) NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE registered_users (
 );
 
 CREATE TABLE products (
-                      id INTEGER PRIMARY KEY NOT NULL,
+                      id serial PRIMARY KEY NOT NULL,
                       name VARCHAR(200) NOT NULL,
                       description VARCHAR(2000) NOT NULL,
                       default_price INTEGER NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE products (
 );
 
 CREATE TABLE cart (
-                        id INTEGER PRIMARY KEY NOT NULL,
+                        id serial PRIMARY KEY NOT NULL,
                         product_id INTEGER NOT NULL,
                         quantity INTEGER NOT NULL,
                         total_price INTEGER NOT NULL,
@@ -38,20 +38,20 @@ CREATE TABLE cart (
 );
 
 CREATE TABLE product_supplier(
-                        id INTEGER PRIMARY KEY NOT NULL,
+                        id serial PRIMARY KEY NOT NULL,
                         name VARCHAR(200) NOT NULL,
                         description VARCHAR(2000) NOT NULL
 );
 
 CREATE TABLE product_category(
-                         id INTEGER PRIMARY KEY NOT NULL,
+                         id serial PRIMARY KEY NOT NULL,
                          name VARCHAR(200) NOT NULL,
                          description VARCHAR(2000) NOT NULL,
                          department VARCHAR(2000) NOT NULL
 );
 
 CREATE TABLE orders(
-                       id INTEGER PRIMARY KEY NOT NULL,
+                       id serial PRIMARY KEY NOT NULL,
                        date timestamp NOT NULL,
                        user_id INTEGER NOT NULL,
                        product_id INTEGER NOT NULL,
