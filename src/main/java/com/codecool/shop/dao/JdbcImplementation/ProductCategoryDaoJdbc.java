@@ -1,6 +1,7 @@
 package com.codecool.shop.dao.JdbcImplementation;
 
 import com.codecool.shop.dao.ProductCategoryDao;
+import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 
 import javax.sql.DataSource;
@@ -32,8 +33,24 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
     }
 
     @Override
-    public ProductCategory find(int id) {
-        return null;
+    public ProductCategory find(int id) throws SQLException {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT * FROM product_category WHERE id = ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+
+            if(!rs.next()){
+                return null;
+            }
+
+            ProductCategory category = new ProductCategory(rs.getString(1), rs.getString(3), rs.getString(2));
+
+            return category;
+
+        }catch (SQLException e){
+            throw  new RuntimeException(e);
+        }
     }
 
     @Override

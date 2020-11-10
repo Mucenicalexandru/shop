@@ -29,6 +29,13 @@ public class DatabaseManager {
         return dataSource;
     }
 
+    public void testSetup() throws SQLException {
+        DataSource dataSource = testConnect();
+        productDao = new ProductDaoJdbc(dataSource);
+        supplierDao = new SupplierDaoJdbc(dataSource);
+        productCategoryDao = new ProductCategoryDaoJdbc(dataSource);
+    }
+
 
     private DataSource connect() throws SQLException {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
@@ -51,6 +58,28 @@ public class DatabaseManager {
         supplierDao.add(supplier);
         productCategoryDao.add(category);
         productDao.add(product);
+    }
+
+    public Product findProductById(int id){
+        return productDao.find(id);
+    }
+
+
+    private DataSource testConnect() throws SQLException {
+        PGSimpleDataSource dataSource = new PGSimpleDataSource();
+        String dbName = "codecoolshop_test";
+        String user = "alex";
+        String password = "1234";
+
+        dataSource.setDatabaseName(dbName);
+        dataSource.setUser(user);
+        dataSource.setPassword(password);
+
+        System.out.println("Trying to connect");
+        dataSource.getConnection().close();
+        System.out.println("Connection ok.");
+
+        return dataSource;
     }
 
 }

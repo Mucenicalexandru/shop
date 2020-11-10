@@ -1,6 +1,6 @@
 package com.codecool.shop.dao;
 
-import com.codecool.shop.dao.implementation.CartDaoMem;
+import com.codecool.shop.dao.memoryImplementation.CartDaoMem;
 
 import java.util.List;
 

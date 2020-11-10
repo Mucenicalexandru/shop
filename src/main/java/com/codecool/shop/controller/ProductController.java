@@ -1,35 +1,47 @@
 package com.codecool.shop.controller;
 
+import com.codecool.shop.config.DatabaseManager;
 import com.codecool.shop.dao.CartDao;
+import com.codecool.shop.dao.JdbcImplementation.ProductDaoJdbc;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.SupplierDao;
-import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
-import com.codecool.shop.dao.implementation.ProductDaoMem;
+import com.codecool.shop.dao.memoryImplementation.ProductCategoryDaoMem;
+import com.codecool.shop.dao.memoryImplementation.ProductDaoMem;
 import com.codecool.shop.config.TemplateEngineUtil;
-import com.codecool.shop.dao.implementation.SupplierDaoMem;
-import com.codecool.shop.dao.implementation.CartDaoMem;
+import com.codecool.shop.dao.memoryImplementation.SupplierDaoMem;
+import com.codecool.shop.dao.memoryImplementation.CartDaoMem;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 import java.io.IOException;
-import java.util.Arrays;
+import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
 
 @WebServlet(urlPatterns = {"/", "/index"})
 public class ProductController extends HttpServlet {
 
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int itemsNumber = 0;
+
+//        DatabaseManager databaseManager = new DatabaseManager();
+//
+//        try {
+//            DataSource dataSource = databaseManager.setup();
+//            ProductDaoJdbc productDaoJdbc = new ProductDaoJdbc(dataSource);
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        }
+
+
+
 
         //TODO each user has an id. When we add the first product, the cart will have an id = userId
         //TODO for the moment is dummy data, user id -> Session
