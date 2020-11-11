@@ -62,25 +62,29 @@ public class CartController extends HttpServlet {
         List<Product> shoppingCartWithDuplicates = cart.getAll();
         int quantityNumber = quantity.get(productId);
 
-        if(buttonPressed.equals("+")){
-            if (!shoppingCartWithDuplicates.contains(productDataStore.find(productId))) {
-                cart.add(productDataStore.find(productId), userId);
-                quantity.put(productId, 1);
-            } else {
-                int a = quantity.get(productId) + 1;
-                quantity.replace(productId, a);
-            }
-        }else if(buttonPressed.equals("-")){
-            if(quantityNumber==1){
-                cart.remove(productDataStore.find(productId));
+        switch (buttonPressed) {
+            case "+":
+                if (!shoppingCartWithDuplicates.contains(productDataStore.find(productId))) {
+                    cart.add(productDataStore.find(productId), userId);
+                    quantity.put(productId, 1);
+                } else {
+                    int a = quantity.get(productId) + 1;
+                    quantity.replace(productId, a);
+                }
+                break;
+            case "-":
+                if (quantityNumber == 1) {
+//                    cart.remove(productDataStore.find(productId));
+                    quantity.remove(productId);
+                } else {
+                    quantityNumber--;
+                    quantity.replace(productId, quantityNumber);
+                }
+                break;
+            case "remove":
+//                cart.remove(productDataStore.find(productId));
                 quantity.remove(productId);
-            }else{
-                quantityNumber--;
-                quantity.replace(productId,quantityNumber);
-            }
-        }else if(buttonPressed.equals("remove")){
-            cart.remove(productDataStore.find(productId));
-            quantity.remove(productId);
+                break;
         }
 
         resp.sendRedirect("/cart");

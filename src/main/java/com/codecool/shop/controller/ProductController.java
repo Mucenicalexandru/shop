@@ -2,6 +2,7 @@ package com.codecool.shop.controller;
 
 import com.codecool.shop.config.DatabaseManager;
 import com.codecool.shop.dao.CartDao;
+import com.codecool.shop.dao.JdbcImplementation.CartDaoJdbc;
 import com.codecool.shop.dao.JdbcImplementation.ProductDaoJdbc;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
@@ -27,20 +28,10 @@ import java.util.HashMap;
 @WebServlet(urlPatterns = {"/", "/index"})
 public class ProductController extends HttpServlet {
 
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int itemsNumber = 0;
-
-//        DatabaseManager databaseManager = new DatabaseManager();
-//
-//        try {
-//            DataSource dataSource = databaseManager.setup();
-//            ProductDaoJdbc productDaoJdbc = new ProductDaoJdbc(dataSource);
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        }
-
-
 
 
         //TODO each user has an id. When we add the first product, the cart will have an id = userId
@@ -79,15 +70,26 @@ public class ProductController extends HttpServlet {
         context.setVariable("cartSize", cart.getAll().size());
         context.setVariable("itemsNumber", itemsNumber);
 
-        if(categoryId != null && Integer.parseInt(categoryId) >= 1){
-            context.setVariable("products", productDataStore.getBy(productCategoryDataStore.find(Integer.parseInt(categoryId))));
-        } else if (supplierId != null && Integer.parseInt(supplierId) >= 1) {
-            context.setVariable("products", productDataStore.getBy(supplierDataStore.find(Integer.parseInt(supplierId))));
-        } else if (resetFilters != null){
-            context.setVariable("products", productDataStore.getAll());
-        } else {
-            context.setVariable("products", productDataStore.getAll());
+        try {
+            ProductDaoJdbc productDaoDB = new ProductDaoJdbc(DatabaseManager.connect());
+            context.setVariable("products",productDaoDB.getAll());
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
+//        if(categoryId != null && Integer.parseInt(categoryId) >= 1){
+//            try {
+//                context.setVariable("products", productDataStore.getBy(productCategoryDataStore.find(Integer.parseInt(categoryId))));
+//            } catch (SQLException throwables) {
+//                throwables.printStackTrace();
+//            }
+//        } else if (supplierId != null && Integer.parseInt(supplierId) >= 1) {
+//            context.setVariable("products", productDataStore.getBy(supplierDataStore.find(Integer.parseInt(supplierId))));
+//        } else if (resetFilters != null){
+//            context.setVariable("products", productDataStore.getAll());
+//        } else {
+//            context.setVariable("products", productDataStore.getAll());
+//        }
 
         String productToAddId = req.getParameter("productId");
         if(productToAddId != null){
@@ -113,13 +115,21 @@ public class ProductController extends HttpServlet {
         HashMap<Integer, Integer> quantity1 = cart.getQuantity();
 
         if(buttonPressed.equals("add")){
-            if(!cart.getAll().contains(productDataStore.find(productId))){
-                cart.add(productDataStore.find(productId), userId);
-                quantity1.put(productId, 1);
-            }else{
-                int a = quantity1.get(productId) + 1;
-                quantity1.replace(productId, a);
+            try {
+                CartDaoJdbc cartDaoDB = new CartDaoJdbc(DatabaseManager.connect());
+                ProductDaoJdbc productDaoDB = new ProductDaoJdbc(DatabaseManager.connect());
+                System.out.println(productDaoDB.find(productId));
+                cartDaoDB.add(productDaoDB.find(productId), (Integer) req.getSession().getAttribute("userID"));
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
+//            if(!cart.getAll().contains(productDataStore.find(productId))){
+//                cart.add(productDataStore.find(productId), userId);
+//                quantity1.put(productId, 1);
+//            }else{
+//                int a = quantity1.get(productId) + 1;
+//                quantity1.replace(productId, a);
+//            }
         }
 
         resp.sendRedirect("/index");

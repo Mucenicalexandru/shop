@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface CartDao {
     void add(Product product, int userId);
-    void remove(Product product);
+    void update(Product product,int userId, int quantity, int totalPrice);
+    void remove(Product product, int userId);
     void clearCart();
     List<Product> getAll();
     HashMap<Integer, Integer> getQuantity();
