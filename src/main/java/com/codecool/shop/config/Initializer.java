@@ -1,6 +1,8 @@
 package com.codecool.shop.config;
 
+import com.codecool.shop.dao.JdbcImplementation.ProductCategoryDaoJdbc;
 import com.codecool.shop.dao.JdbcImplementation.ProductDaoJdbc;
+import com.codecool.shop.dao.JdbcImplementation.SupplierDaoJdbc;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.SupplierDao;
@@ -109,12 +111,17 @@ public class Initializer implements ServletContextListener {
 
 
 //        try {
-//            Supplier lamborghini = new Supplier("Lamborghini", "Automobili Lamborghini S.p.A. is an Italian brand and manufacturer of luxury sports cars and SUVs based in Sant'Agata Bolognese.");
-//            ProductCategory cars = new ProductCategory("Cars", "Transport", "A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display.");
-//            Product product = new Product("BMW 5 Series", 57050, "EUR", "Fantastic price. Large content ecosystem. Good parental controls. Helpful technical support.", cars, lamborghini);
-//            databaseManager.addProduct(product, lamborghini, cars);
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
+//            ProductDaoJdbc productDaoJdbc;
+//            ProductCategoryDaoJdbc productCategoryDaoJdbc;
+//            SupplierDaoJdbc supplierDaoJdbc;
+//            supplierDaoJdbc = new SupplierDaoJdbc((DatabaseManager.connect()));
+//            productCategoryDaoJdbc = new ProductCategoryDaoJdbc((DatabaseManager.connect()));
+//            productDaoJdbc = new ProductDaoJdbc(DatabaseManager.connect());
+//            supplierDaoJdbc.add(porsche);
+//            productCategoryDaoJdbc.add(cars);
+//            productDaoJdbc.add(new Product("Porsche Cayenne Turbo Coupe 4.0", 171900.00f, "EUR", "Lang FINAL EDITION, Magic Skydak, Enter", cars, porsche));
+//        } catch (SQLException e) {
+//            e.printStackTrace();
 //        }
     }
 }

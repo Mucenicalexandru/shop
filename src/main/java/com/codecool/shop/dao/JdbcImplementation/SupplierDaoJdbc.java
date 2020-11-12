@@ -6,6 +6,7 @@ import com.codecool.shop.model.Supplier;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SupplierDaoJdbc implements SupplierDao {
@@ -44,7 +45,6 @@ public class SupplierDaoJdbc implements SupplierDao {
             }
 
             Supplier supplier = new Supplier(rs.getString(1), rs.getString(2));
-
             return supplier;
 
         }catch (SQLException e){
@@ -54,11 +54,33 @@ public class SupplierDaoJdbc implements SupplierDao {
 
     @Override
     public void remove(int id) {
+        try(Connection conn = dataSource.getConnection()) {
+            String sql = "DELETE FROM product_supplier WHERE id = ?";
+            PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            st.setInt(1, id);
+            st.executeUpdate();
 
+        } catch (SQLException throwable) {
+            throw new RuntimeException("Error while removing a product from cart. " + throwable, throwable);
+        }
     }
 
     @Override
     public List<Supplier> getAll() {
-        return null;
+        ArrayList<Supplier> suppliers = new ArrayList<>();
+        try(Connection conn = dataSource.getConnection()){
+            String sql = "SELECT * FROM product_supplier";
+            PreparedStatement st = conn.prepareStatement(sql);
+
+            ResultSet rs = st.executeQuery();
+            while(rs.next()){
+                Supplier supplier = new Supplier(rs.getString("name"), rs.getString("description"));
+                suppliers.add(supplier);
+            }
+            return suppliers;
+
+        } catch (SQLException throwable){
+            throw new RuntimeException("Error while trying to get all items in cart." + throwable, throwable);
+        }
     }
 }

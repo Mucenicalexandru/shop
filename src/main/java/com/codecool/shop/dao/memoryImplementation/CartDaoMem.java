@@ -18,7 +18,6 @@ public class CartDaoMem implements CartDao {
     public static CartDaoMem getInstance(){
         if(instance == null){
             instance = new CartDaoMem();
-
         }
         return instance;
     }
@@ -62,6 +61,11 @@ public class CartDaoMem implements CartDao {
     }
 
     @Override
+    public List<Integer> getAll(int userId) {
+        return null;
+    }
+
+    @Override
     public HashMap<Integer, Integer> getQuantity() {
         return quantity;
     }
@@ -69,6 +73,11 @@ public class CartDaoMem implements CartDao {
     @Override
     public int getCartId() {
         return cartId;
+    }
+
+    @Override
+    public int getQuantity(Product product, int userId) {
+        return 0;
     }
 
 

@@ -1,7 +1,10 @@
 package com.codecool.shop.controller;
 
+import com.codecool.shop.config.DatabaseManager;
 import com.codecool.shop.config.TemplateEngineUtil;
 import com.codecool.shop.dao.CartDao;
+import com.codecool.shop.dao.JdbcImplementation.CartDaoJdbc;
+import com.codecool.shop.dao.JdbcImplementation.ProductDaoJdbc;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.memoryImplementation.ProductDaoMem;
 import com.codecool.shop.dao.memoryImplementation.CartDaoMem;
@@ -15,6 +18,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -29,18 +34,30 @@ public class CartController extends HttpServlet {
         WebContext context = new WebContext(req, resp, req.getServletContext());
         CartDao cart = CartDaoMem.getInstance();
         HashMap <Integer, Integer> quantityRegister = cart.getQuantity();
+        List<Product> productsInShoppingCart = new ArrayList<>();
+
+//        AtomicReference<Float> totalPriceToSend = new AtomicReference<Float>((float) 0);
+
+//        cart.getAll().forEach(product -> {
+//            totalPriceToSend.updateAndGet(v -> v + (product.getDefaultPrice() *  (int)quantityRegister.get(product.getId())));
+//        });
 
 
-        AtomicReference<Float> totalPriceToSend = new AtomicReference<Float>((float) 0);
+        try {
+            CartDaoJdbc cartDaoDB = new CartDaoJdbc(DatabaseManager.connect());
+            ProductDaoJdbc productDaoDB = new ProductDaoJdbc(DatabaseManager.connect());
+            cartDaoDB.getAll((Integer) req.getSession().getAttribute("userID")).forEach(productId->{
+                productsInShoppingCart.add(productDaoDB.find(productId));
+            });
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-        cart.getAll().forEach(product -> {
-            totalPriceToSend.updateAndGet(v -> v + (product.getDefaultPrice() *  (int)quantityRegister.get(product.getId())));
-        });
-
-        context.setVariable("cart", cart.getAll());
+//        context.setVariable("cart", cart.getAll());
+        context.setVariable("cart", productsInShoppingCart);
         context.setVariable("quantity" ,cart.getQuantity());
 
-
+        int totalPriceToSend = (int) req.getSession().getAttribute("totalPrice");
         context.setVariable("totalOrderAmount", totalPriceToSend);
         req.getSession().setAttribute("finalPrice", totalPriceToSend);
 
@@ -51,15 +68,26 @@ public class CartController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String buttonPressed = req.getParameter("button");
         int productId = Integer.parseInt(req.getParameter("productId"));
-
         ProductDao productDataStore = ProductDaoMem.getInstance();
         CartDao cart = CartDaoMem.getInstance();
         HashMap<Integer, Integer> quantity = cart.getQuantity();
 
         //TODO for the moment is dummy data, user id -> Session
         int userId = 1;
+        List<Product> shoppingCartWithDuplicates = new ArrayList<>();
 
-        List<Product> shoppingCartWithDuplicates = cart.getAll();
+        try {
+            CartDaoJdbc cartDaoDB = new CartDaoJdbc(DatabaseManager.connect());
+            ProductDaoJdbc productDaoDB = new ProductDaoJdbc(DatabaseManager.connect());
+            cartDaoDB.getAll((Integer) req.getSession().getAttribute("userID")).forEach(productID->{
+                shoppingCartWithDuplicates.add(productDaoDB.find(productID));
+            });
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
         int quantityNumber = quantity.get(productId);
 
         switch (buttonPressed) {

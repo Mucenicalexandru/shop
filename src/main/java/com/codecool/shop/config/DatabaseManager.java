@@ -19,10 +19,12 @@ public class DatabaseManager {
     public static DataSource connect() throws SQLException {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
         String dbName = "codecool_shop";
+//        String testDbName = "codecoolshop_test";
         String user = "alex";
         String password = "1234";
 
         dataSource.setDatabaseName(dbName);
+//        dataSource.setDatabaseName(testDbName);
         dataSource.setUser(user);
         dataSource.setPassword(password);
 

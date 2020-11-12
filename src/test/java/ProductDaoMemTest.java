@@ -1,4 +1,3 @@
-import com.codecool.shop.dao.JdbcImplementation.ProductDaoJdbc;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.memoryImplementation.ProductDaoMem;
 import com.codecool.shop.model.Product;
@@ -6,15 +5,12 @@ import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ProductDaoMemTest {
 
@@ -50,17 +46,17 @@ public class ProductDaoMemTest {
 
 
     @Test
-    @Order(1)
-    void addProductToMemory() {
-        int expectedSize = 1;
+    void addProductToMemory() throws SQLException {
+        productDataStore.add(product);
+        int expectedSize = 2;
         int actualSize = productDataStore.getAll().size();
 
         assertEquals(expectedSize, actualSize);
+        productDataStore.remove(1);
     }
 
 
     @Test
-    @Order(2)
     void findByIdFromMemory() {
         Product actualProduct = productDataStore.find(1);
         Product expectedProduct = product;
@@ -70,7 +66,6 @@ public class ProductDaoMemTest {
 
 
     @Test
-    @Order(3)
     void removeProductFromMemoryById()  {
         productDataStore.remove(1);
 
@@ -83,7 +78,6 @@ public class ProductDaoMemTest {
 
 
     @Test
-    @Order(4)
     void getProductBySupplier_correctSupplier() {
 
         List<Product> productList = productDataStore.getBy(supplier);
@@ -96,7 +90,6 @@ public class ProductDaoMemTest {
 
 
     @Test
-    @Order(5)
     void getProductBySupplier_incorrectSupplier() {
 
         List<Product> productList = productDataStore.getBy(supplier1);
@@ -109,7 +102,6 @@ public class ProductDaoMemTest {
 
 
     @Test
-    @Order(6)
     void getProductByCategory_correctCategory() {
         List<Product> productList = productDataStore.getBy(category);
 
@@ -121,7 +113,6 @@ public class ProductDaoMemTest {
 
 
     @Test
-    @Order(7)
     void getProductByCategory_incorrectCategory() {
         List<Product> productList = productDataStore.getBy(category1);
 
@@ -132,7 +123,6 @@ public class ProductDaoMemTest {
     }
 
     @Test
-    @Order(8)
     void getAllProductsFromMemory() throws SQLException {
         productDataStore.add(product1);
 

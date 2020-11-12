@@ -1,7 +1,9 @@
 package com.codecool.shop.controller;
 
 
+import com.codecool.shop.config.DatabaseManager;
 import com.codecool.shop.config.TemplateEngineUtil;
+import com.codecool.shop.dao.JdbcImplementation.ProductDaoJdbc;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.memoryImplementation.ProductDaoMem;
 import org.thymeleaf.TemplateEngine;
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet(urlPatterns = {"/index/details"})
 public class ProductDetails extends HttpServlet {
@@ -25,8 +28,17 @@ public class ProductDetails extends HttpServlet {
         String productId = req.getParameter("id");
         String itemsNumber = String.valueOf(req.getSession().getAttribute("itemsNumber"));
 
-        context.setVariable("product", productDataStore.find(Integer.parseInt(productId)));
-        context.setVariable("itemsNumber", itemsNumber);
+        // connect to DB
+        try {
+            ProductDaoJdbc productDaoDB = new ProductDaoJdbc(DatabaseManager.connect());
+            context.setVariable("product", productDaoDB.find(Integer.parseInt(productId)));
+            context.setVariable("itemsNumber", itemsNumber);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+//        context.setVariable("product", productDataStore.find(Integer.parseInt(productId)));
+//        context.setVariable("itemsNumber", itemsNumber);
 
         engine.process("product/details.html", context, resp.getWriter());
 
