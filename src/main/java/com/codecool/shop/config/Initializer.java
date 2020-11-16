@@ -1,11 +1,5 @@
 package com.codecool.shop.config;
 
-import com.codecool.shop.dao.JdbcImplementation.ProductCategoryDaoJdbc;
-import com.codecool.shop.dao.JdbcImplementation.ProductDaoJdbc;
-import com.codecool.shop.dao.JdbcImplementation.SupplierDaoJdbc;
-import com.codecool.shop.dao.ProductCategoryDao;
-import com.codecool.shop.dao.ProductDao;
-import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.dao.memoryImplementation.ProductCategoryDaoMem;
 import com.codecool.shop.dao.memoryImplementation.ProductDaoMem;
 import com.codecool.shop.dao.memoryImplementation.SupplierDaoMem;
@@ -16,12 +10,18 @@ import com.codecool.shop.model.Supplier;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 
 @WebListener
 public class Initializer implements ServletContextListener {
 
-    private DatabaseManager databaseManager = new DatabaseManager();
+    public Initializer() throws FileNotFoundException {
+    }
+
+    private Connector connector = new Connector();
+
+
 
 
     @Override

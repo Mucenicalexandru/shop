@@ -1,12 +1,8 @@
 package com.codecool.shop.controller;
 
-import com.codecool.shop.config.DatabaseManager;
-import com.codecool.shop.dao.CartDao;
+import com.codecool.shop.config.Connector;
 import com.codecool.shop.dao.JdbcImplementation.CartDaoJdbc;
 import com.codecool.shop.dao.JdbcImplementation.ProductDaoJdbc;
-import com.codecool.shop.dao.ProductCategoryDao;
-import com.codecool.shop.dao.ProductDao;
-import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.dao.memoryImplementation.ProductCategoryDaoMem;
 import com.codecool.shop.dao.memoryImplementation.ProductDaoMem;
 import com.codecool.shop.config.TemplateEngineUtil;
@@ -21,13 +17,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 @WebServlet(urlPatterns = {"/", "/index"})
 public class ProductController extends HttpServlet {
@@ -37,9 +30,7 @@ public class ProductController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int itemsNumber = 0;
 
-        //TODO each user has an id. When we add the first product, the cart will have an id = userId
-        //TODO for the moment is dummy data, user id -> Session
-        //TODO so each cart will have an id equal to user id, when user check out, we will remove his cart by searching with id
+
         int userId = 1;
 
         ProductDao productDataStore = ProductDaoMem.getInstance();
@@ -84,7 +75,7 @@ public class ProductController extends HttpServlet {
 //        }
 
         try {
-            ProductDaoJdbc productDaoDB = new ProductDaoJdbc(DatabaseManager.connect());
+            ProductDaoJdbc productDaoDB = new ProductDaoJdbc(Connector.connect());
             context.setVariable("products",productDaoDB.getAll());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -114,8 +105,10 @@ public class ProductController extends HttpServlet {
 
         if(buttonPressed.equals("add")){
             try {
-                CartDaoJdbc cartDaoDB = new CartDaoJdbc(DatabaseManager.connect());
-                ProductDaoJdbc productDaoDB = new ProductDaoJdbc(DatabaseManager.connect());
+
+                //TODO DAO -> Singleton
+                CartDaoJdbc cartDaoDB = new CartDaoJdbc(Connector.connect());
+                ProductDaoJdbc productDaoDB = new ProductDaoJdbc(Connector.connect());
                 ArrayList<Product> productsInShoppingCart = new ArrayList<>();
 
                 cartDaoDB.getAll((Integer) req.getSession().getAttribute("userID")).forEach(productID->{
@@ -131,7 +124,6 @@ public class ProductController extends HttpServlet {
                     cartDaoDB.add(productDaoDB.find(productId), (Integer) req.getSession().getAttribute("userID"));
                     productsInShoppingCart.add(productDaoDB.find(productId));
                 }else{
-                    System.out.println("AM INTRAT IN ELSE : " + productsInShoppingCart);
                     for(int i = 0; i < productsInShoppingCart.size(); i++){
                         if(productsInShoppingCart.get(i).toString().equals(productDaoDB.find(productId).toString())){
                             int quantityToUpdate = quantity1 + 1;
@@ -140,7 +132,6 @@ public class ProductController extends HttpServlet {
                             req.getSession().setAttribute("totalPrice", totalPrice);
                             cartDaoDB.update(productDaoDB.find(productId),(Integer) req.getSession().getAttribute("userID"), quantityToUpdate, totalPrice);
                         }else{
-                            System.out.println("AL DOILEA ELSE");
                             cartDaoDB.add(productDaoDB.find(productId), (Integer) req.getSession().getAttribute("userID"));
                             productsInShoppingCart.add(productDaoDB.find(productId));
                         }

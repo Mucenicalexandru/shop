@@ -1,6 +1,5 @@
 package com.codecool.shop.dao.memoryImplementation;
 
-import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.model.Order;
 
 import java.util.ArrayList;

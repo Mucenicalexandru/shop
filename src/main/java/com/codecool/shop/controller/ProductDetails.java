@@ -1,10 +1,9 @@
 package com.codecool.shop.controller;
 
 
-import com.codecool.shop.config.DatabaseManager;
+import com.codecool.shop.config.Connector;
 import com.codecool.shop.config.TemplateEngineUtil;
 import com.codecool.shop.dao.JdbcImplementation.ProductDaoJdbc;
-import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.memoryImplementation.ProductDaoMem;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -30,7 +29,7 @@ public class ProductDetails extends HttpServlet {
 
         // connect to DB
         try {
-            ProductDaoJdbc productDaoDB = new ProductDaoJdbc(DatabaseManager.connect());
+            ProductDaoJdbc productDaoDB = new ProductDaoJdbc(Connector.connect());
             context.setVariable("product", productDaoDB.find(Integer.parseInt(productId)));
             context.setVariable("itemsNumber", itemsNumber);
         } catch (SQLException e) {

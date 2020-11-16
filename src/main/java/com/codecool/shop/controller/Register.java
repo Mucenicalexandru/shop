@@ -1,7 +1,7 @@
 package com.codecool.shop.controller;
 
 
-import com.codecool.shop.config.DatabaseManager;
+import com.codecool.shop.config.Connector;
 import com.codecool.shop.dao.JdbcImplementation.UserDaoJdbc;
 import com.codecool.shop.model.User;
 
@@ -29,7 +29,7 @@ public class Register extends HttpServlet {
 
         // connect to DB
         try {
-            UserDaoJdbc usersDaoDB = new UserDaoJdbc(DatabaseManager.connect());
+            UserDaoJdbc usersDaoDB = new UserDaoJdbc(Connector.connect());
             usersDaoDB.add(new User(firstName,lastName,country,address,Integer.parseInt(postcode), town, Integer.parseInt(phone),email,password));
             request.getSession().setAttribute("user", firstName);
             request.getSession().setAttribute("userID",usersDaoDB.findByEmail(email).getId());

@@ -1,6 +1,6 @@
 package com.codecool.shop.controller;
 
-import com.codecool.shop.config.DatabaseManager;
+import com.codecool.shop.config.Connector;
 import com.codecool.shop.dao.JdbcImplementation.UserDaoJdbc;
 import com.codecool.shop.model.User;
 
@@ -19,7 +19,7 @@ public class Login extends HttpServlet {
         String password = request.getParameter("password");
 
         try {
-            UserDaoJdbc usersDaoDB = new UserDaoJdbc(DatabaseManager.connect());
+            UserDaoJdbc usersDaoDB = new UserDaoJdbc(Connector.connect());
             User user = usersDaoDB.findByEmail(email);
             if(user.getPassword().equals(password)){
                 request.getSession().setAttribute("user", user.getFirstName());

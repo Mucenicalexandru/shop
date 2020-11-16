@@ -2,27 +2,27 @@ package com.codecool.shop.dao.JdbcImplementation;
 
 import com.codecool.shop.config.Connector;
 import com.codecool.shop.dao.AbstractDao;
-import com.codecool.shop.model.Cart;
+import com.codecool.shop.model.Order;
 
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-public class CartDaoJdbc implements AbstractDao<Cart> {
+public class OrderDaoJdbc implements AbstractDao<Order> {
 
     private DataSource dataSource;
-    public CartDaoJdbc() throws IOException, SQLException {
+    public OrderDaoJdbc() throws IOException, SQLException {
         this.dataSource = Connector.connect();
     }
 
     @Override
-    public void add(Cart cart) {
+    public void add(Order order) {
 
     }
 
     @Override
-    public Cart find(int id) {
+    public Order find(int id) {
         return null;
     }
 
@@ -32,12 +32,12 @@ public class CartDaoJdbc implements AbstractDao<Cart> {
     }
 
     @Override
-    public List<Cart> getAll() {
+    public List<Order> getAll() {
         return null;
     }
 
     @Override
-    public List<Cart> getBy(int id) {
+    public List<Order> getBy(int id) {
         return null;
     }
 }

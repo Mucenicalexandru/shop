@@ -1,11 +1,9 @@
 package com.codecool.shop.controller;
 
-import com.codecool.shop.config.DatabaseManager;
+import com.codecool.shop.config.Connector;
 import com.codecool.shop.config.TemplateEngineUtil;
-import com.codecool.shop.dao.CartDao;
 import com.codecool.shop.dao.JdbcImplementation.CartDaoJdbc;
 import com.codecool.shop.dao.JdbcImplementation.ProductDaoJdbc;
-import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.memoryImplementation.ProductDaoMem;
 import com.codecool.shop.dao.memoryImplementation.CartDaoMem;
 import com.codecool.shop.model.Product;
@@ -22,7 +20,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 @WebServlet(urlPatterns = {"/cart"})
 public class CartController extends HttpServlet {
@@ -44,8 +41,8 @@ public class CartController extends HttpServlet {
 
 
         try {
-            CartDaoJdbc cartDaoDB = new CartDaoJdbc(DatabaseManager.connect());
-            ProductDaoJdbc productDaoDB = new ProductDaoJdbc(DatabaseManager.connect());
+            CartDaoJdbc cartDaoDB = new CartDaoJdbc(Connector.connect());
+            ProductDaoJdbc productDaoDB = new ProductDaoJdbc(Connector.connect());
             cartDaoDB.getAll((Integer) req.getSession().getAttribute("userID")).forEach(productId->{
                 productsInShoppingCart.add(productDaoDB.find(productId));
             });
@@ -77,8 +74,8 @@ public class CartController extends HttpServlet {
         List<Product> shoppingCartWithDuplicates = new ArrayList<>();
 
         try {
-            CartDaoJdbc cartDaoDB = new CartDaoJdbc(DatabaseManager.connect());
-            ProductDaoJdbc productDaoDB = new ProductDaoJdbc(DatabaseManager.connect());
+            CartDaoJdbc cartDaoDB = new CartDaoJdbc(Connector.connect());
+            ProductDaoJdbc productDaoDB = new ProductDaoJdbc(Connector.connect());
             cartDaoDB.getAll((Integer) req.getSession().getAttribute("userID")).forEach(productID->{
                 shoppingCartWithDuplicates.add(productDaoDB.find(productID));
             });
