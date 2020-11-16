@@ -3,6 +3,7 @@ package com.codecool.shop.dao.JdbcImplementation;
 import com.codecool.shop.config.Connector;
 import com.codecool.shop.dao.AbstractDao;
 import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.model.Supplier;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductCategoryDaoJdbc implements AbstractDao<ProductCategory> {
@@ -60,7 +62,34 @@ public class ProductCategoryDaoJdbc implements AbstractDao<ProductCategory> {
 
     @Override
     public List<ProductCategory> getAll() {
-        return null;
+        List<ProductCategory> categoryList = new ArrayList<>();
+        ProductCategory productCategory;
+        String sql = "SELECT * FROM product_category";
+
+        try(Connection connection = dataSource.getConnection()){
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()){
+                String name = resultSet.getString("name");
+                String description = resultSet.getString("description");
+                String department = resultSet.getString("department");
+
+
+                productCategory = new ProductCategory(name,
+                        description,
+                        department
+                );
+
+                productCategory.setId(resultSet.getInt(1));
+                categoryList.add(productCategory);
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return categoryList;
     }
 
     @Override

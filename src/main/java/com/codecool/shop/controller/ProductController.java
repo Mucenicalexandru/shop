@@ -44,13 +44,37 @@ public class ProductController extends HttpServlet {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
 
+        String categoryId = req.getParameter("categoryId");
+        String supplierId = req.getParameter("supplierId");
+
+        try {
+            SupplierDaoJdbc supplierDaoJdbc = new SupplierDaoJdbc();
+            ProductCategoryDaoJdbc productCategoryDaoJdbc = new ProductCategoryDaoJdbc();
+            ProductDaoJdbc productDaoJdbc = new ProductDaoJdbc(supplierDaoJdbc, productCategoryDaoJdbc);
+
+            context.setVariable("categories", productCategoryDaoJdbc.getAll());
+            context.setVariable("suppliers", supplierDaoJdbc.getAll());
+
+            if(categoryId != null && Integer.parseInt(categoryId) >= 1){
+                context.setVariable("products", productDaoJdbc.getByCategory(Integer.parseInt(categoryId)));
+            } else if (supplierId != null && Integer.parseInt(supplierId) >= 1){
+                context.setVariable("products", productDaoJdbc.getBySupplier(Integer.parseInt(supplierId)));
+            }else{
+                context.setVariable("products", productDaoJdbc.getAll());
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
-//        String categoryId = req.getParameter("categoryId");
-//        String supplierId = req.getParameter("supplierId");
-//        String resetFilters = req.getParameter("resetFilters");
-//
-//
+
+
+
+
+
+
+
 //        if(quantity.size()>0){
 //            for(Object value: quantity.values()){
 //                itemsNumber+= (int)value;
@@ -77,15 +101,7 @@ public class ProductController extends HttpServlet {
 //            context.setVariable("products", productDataStore.getAll());
 //        }
 
-        try {
-            SupplierDaoJdbc supplierDaoJdbc = new SupplierDaoJdbc();
-            ProductCategoryDaoJdbc productCategoryDaoJdbc = new ProductCategoryDaoJdbc();
-            ProductDaoJdbc productDaoJdbc = new ProductDaoJdbc(supplierDaoJdbc, productCategoryDaoJdbc);
 
-            context.setVariable("products",productDaoJdbc.getAll());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
 //        String productToAddId = req.getParameter("productId");
 //        if(productToAddId != null){

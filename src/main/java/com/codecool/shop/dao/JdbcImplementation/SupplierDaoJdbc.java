@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SupplierDaoJdbc implements AbstractDao<Supplier> {
@@ -60,7 +61,32 @@ public class SupplierDaoJdbc implements AbstractDao<Supplier> {
 
     @Override
     public List<Supplier> getAll() {
-        return null;
+        List<Supplier> supplierList = new ArrayList<>();
+        Supplier supplier;
+        String sql = "SELECT * FROM product_supplier";
+
+        try(Connection connection = dataSource.getConnection()){
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()){
+                String name = resultSet.getString("name");
+                String description = resultSet.getString("description");
+
+
+                supplier = new Supplier(name,
+                        description
+                );
+
+                supplier.setId(resultSet.getInt(1));
+                supplierList.add(supplier);
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return supplierList;
     }
 
     @Override

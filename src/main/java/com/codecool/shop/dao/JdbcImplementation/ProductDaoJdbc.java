@@ -2,6 +2,7 @@ package com.codecool.shop.dao.JdbcImplementation;
 
 import com.codecool.shop.config.Connector;
 import com.codecool.shop.dao.AbstractDao;
+import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
@@ -13,7 +14,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductDaoJdbc implements AbstractDao<Product> {
+public class ProductDaoJdbc implements AbstractDao<Product>, ProductDao<Product> {
 
     private DataSource dataSource;
     private AbstractDao supplierDaoJdbc;
@@ -115,7 +116,116 @@ public class ProductDaoJdbc implements AbstractDao<Product> {
 
     @Override
     public List<Product> getBy(int id) {
-        return null;
+        List<Product> productList = new ArrayList<>();
+        Product product;
+        String sql = "SELECT * FROM products";
+
+        try(Connection connection = dataSource.getConnection()){
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()){
+                String name = resultSet.getString("name");
+                String description = resultSet.getString("description");
+                float defaultPrice = resultSet.getFloat("default_price");
+                String defaultCurrency = resultSet.getString("default_currency");
+                int categoryId = resultSet.getInt("category_id");
+                int supplierId = resultSet.getInt("supplier_id");
+
+                Supplier supplier = (Supplier) supplierDaoJdbc.find(supplierId);
+                ProductCategory category = (ProductCategory) categoryDaoJdbc.find(categoryId);
+
+                product = new Product(name,
+                        defaultPrice,
+                        defaultCurrency,
+                        description,
+                        category,
+                        supplier);
+
+                product.setId(resultSet.getInt(1));
+                productList.add(product);
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return productList;
     }
 
+    @Override
+    public List<Product> getBySupplier(int supplierId) {
+        List<Product> productList = new ArrayList<>();
+        Product product;
+        String sql = "SELECT * FROM products WHERE supplier_id = ?";
+
+        try(Connection connection = dataSource.getConnection()){
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, supplierId);
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                String name = resultSet.getString("name");
+                String description = resultSet.getString("description");
+                float defaultPrice = resultSet.getFloat("default_price");
+                String defaultCurrency = resultSet.getString("default_currency");
+                int categoryId = resultSet.getInt("category_id");
+                Supplier supplier = (Supplier) supplierDaoJdbc.find(supplierId);
+                ProductCategory category = (ProductCategory) categoryDaoJdbc.find(categoryId);
+
+                product = new Product(name,
+                        defaultPrice,
+                        defaultCurrency,
+                        description,
+                        category,
+                        supplier);
+
+                product.setId(resultSet.getInt(1));
+                productList.add(product);
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return productList;
+    }
+
+    @Override
+    public List<Product> getByCategory(int categoryId) {
+        List<Product> productList = new ArrayList<>();
+        Product product;
+        String sql = "SELECT * FROM products WHERE category_id = ?";
+
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, categoryId);
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String name = resultSet.getString("name");
+                String description = resultSet.getString("description");
+                float defaultPrice = resultSet.getFloat("default_price");
+                String defaultCurrency = resultSet.getString("default_currency");
+                int supplierId = resultSet.getInt("supplier_id");
+                Supplier supplier = (Supplier) supplierDaoJdbc.find(supplierId);
+                ProductCategory category = (ProductCategory) categoryDaoJdbc.find(categoryId);
+
+                product = new Product(name,
+                        defaultPrice,
+                        defaultCurrency,
+                        description,
+                        category,
+                        supplier);
+
+                product.setId(resultSet.getInt(1));
+                productList.add(product);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return productList;
+    }
 }
