@@ -6,18 +6,30 @@ import com.codecool.shop.model.Cart;
 
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 public class CartDaoJdbc implements AbstractDao<Cart> {
 
     private DataSource dataSource;
     public CartDaoJdbc() throws IOException, SQLException {
-        this.dataSource = Connector.connect();
+        this.dataSource = Connector.getInstance().connect();
     }
 
     @Override
     public void add(Cart cart) {
+        String sql = "INSERT INTO cart (user_id, product_id, quantity) VALUES (?,?,?)";
+        try(Connection connection = dataSource.getConnection()){
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            statement.setInt(1, cart.getId());
+            statement.setInt(2, cart.getProductId());
+            statement.setInt(3, cart.getQuantity());
+
+            statement.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
 
     }
 

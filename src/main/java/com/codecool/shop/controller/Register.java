@@ -1,7 +1,6 @@
 package com.codecool.shop.controller;
 
 
-import com.codecool.shop.config.Connector;
 import com.codecool.shop.dao.JdbcImplementation.UserDaoJdbc;
 import com.codecool.shop.model.User;
 
@@ -16,6 +15,8 @@ import java.sql.SQLException;
 @WebServlet(urlPatterns = {"/register"})
 public class Register extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        //get user info
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String country = request.getParameter("country");
@@ -27,14 +28,18 @@ public class Register extends HttpServlet {
         String password = request.getParameter("password");
 
 
-        // connect to DB
+        //build the User
+        User user = new User(firstName, lastName, country, address, postcode, town, phone, email, password);
+
+        //connect to DB
         try {
-            UserDaoJdbc usersDaoDB = new UserDaoJdbc(Connector.connect());
-            usersDaoDB.add(new User(firstName,lastName,country,address,Integer.parseInt(postcode), town, Integer.parseInt(phone),email,password));
+            UserDaoJdbc userDaoJdbc = new UserDaoJdbc();
+            userDaoJdbc.add(user);
+            int userId = userDaoJdbc.findByEmail(email).getId();
             request.getSession().setAttribute("user", firstName);
-            request.getSession().setAttribute("userID",usersDaoDB.findByEmail(email).getId());
-        } catch (SQLException e) {
-            e.printStackTrace();
+            request.getSession().setAttribute("userId", userId);
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
         }
 
         response.sendRedirect("/index");

@@ -15,15 +15,17 @@ import java.sql.SQLException;
 @WebServlet(urlPatterns = {"/login"})
 public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //user info
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
         try {
-            UserDaoJdbc usersDaoDB = new UserDaoJdbc(Connector.connect());
+            UserDaoJdbc usersDaoDB = new UserDaoJdbc();
             User user = usersDaoDB.findByEmail(email);
+
             if(user.getPassword().equals(password)){
                 request.getSession().setAttribute("user", user.getFirstName());
-                request.getSession().setAttribute("userID", user.getId());
+                request.getSession().setAttribute("userId", user.getId());
                 response.sendRedirect("/index");
             } else {
                 System.out.println("the password dose not match");

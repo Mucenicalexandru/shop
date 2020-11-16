@@ -30,11 +30,10 @@ CREATE TABLE products (
 );
 
 CREATE TABLE cart (
-                        id serial PRIMARY KEY NOT NULL,
+                        user_id INTEGER NOT NULL,
                         product_id INTEGER NOT NULL,
-                        quantity INTEGER NOT NULL,
-                        total_price INTEGER NOT NULL,
-                        user_id INTEGER NOT NULL
+                        quantity INTEGER NOT NULL
+
 );
 
 CREATE TABLE product_supplier(

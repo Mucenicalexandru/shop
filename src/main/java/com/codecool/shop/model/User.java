@@ -7,14 +7,14 @@ public class User {
     private String lastName;
     private String country;
     private String address;
-    private int postcode;
+    private String postcode;
     private String town;
-    private int phone;
+    private String phone;
     private String email;
     private String password;
 
 
-    public User(String firstName, String lastName, String country, String address, int postcode, String town, int phone, String email, String password) {
+    public User(String firstName, String lastName, String country, String address, String postcode, String town, String phone, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.country = country;
@@ -67,11 +67,11 @@ public class User {
         this.address = address;
     }
 
-    public int getPostcode() {
+    public String getPostcode() {
         return postcode;
     }
 
-    public void setPostcode(int postcode) {
+    public void setPostcode(String postcode) {
         this.postcode = postcode;
     }
 
@@ -83,11 +83,11 @@ public class User {
         this.town = town;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
