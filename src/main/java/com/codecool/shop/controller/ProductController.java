@@ -1,15 +1,10 @@
 package com.codecool.shop.controller;
 
-import com.codecool.shop.config.Connector;
-import com.codecool.shop.dao.JdbcImplementation.CartDaoJdbc;
+import com.codecool.shop.config.TemplateEngineUtil;
 import com.codecool.shop.dao.JdbcImplementation.ProductCategoryDaoJdbc;
 import com.codecool.shop.dao.JdbcImplementation.ProductDaoJdbc;
-//import com.codecool.shop.dao.memoryImplementation.ProductCategoryDaoMem;
-//import com.codecool.shop.dao.memoryImplementation.ProductDaoMem;
-import com.codecool.shop.config.TemplateEngineUtil;
-//import com.codecool.shop.dao.memoryImplementation.SupplierDaoMem;
-//import com.codecool.shop.dao.memoryImplementation.CartDaoMem;
 import com.codecool.shop.dao.JdbcImplementation.SupplierDaoJdbc;
+import com.codecool.shop.model.Cart;
 import com.codecool.shop.model.Product;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -19,21 +14,24 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Optional;
+
+//import com.codecool.shop.dao.memoryImplementation.ProductCategoryDaoMem;
+//import com.codecool.shop.dao.memoryImplementation.ProductDaoMem;
+//import com.codecool.shop.dao.memoryImplementation.SupplierDaoMem;
+//import com.codecool.shop.dao.memoryImplementation.CartDaoMem;
 
 @WebServlet(urlPatterns = {"/", "/index"})
 public class ProductController extends HttpServlet {
 
 
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int itemsNumber = 0;
-
-
-        int userId = 1;
+//
 
 //        ProductDao productDataStore = ProductDaoMem.getInstance();
 //        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
@@ -43,6 +41,8 @@ public class ProductController extends HttpServlet {
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
+
+
 
         String categoryId = req.getParameter("categoryId");
         String supplierId = req.getParameter("supplierId");
@@ -75,6 +75,7 @@ public class ProductController extends HttpServlet {
 
 
 
+
 //        if(quantity.size()>0){
 //            for(Object value: quantity.values()){
 //                itemsNumber+= (int)value;
@@ -82,9 +83,7 @@ public class ProductController extends HttpServlet {
 //        }
 //        req.getSession().setAttribute("itemsNumber", itemsNumber);
 
-//        Cookie ck = new Cookie("user", "Alex");
-//        resp.addCookie(ck);
-//        System.out.println(ck.getName());
+
 
 //        context.setVariable("categories", productCategoryDataStore.getAll());
 //        context.setVariable("suppliers", supplierDataStore.getAll());
@@ -116,14 +115,33 @@ public class ProductController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String buttonPressed = req.getParameter("button");
         int productId = Integer.parseInt(req.getParameter("productId"));
+        HttpSession session = req.getSession();
 
-        //TODO for the moment is dummy data, user id -> Session
-        int userId = 1;
+
+        try {
+            SupplierDaoJdbc supplierDaoJdbc = new SupplierDaoJdbc();
+            ProductCategoryDaoJdbc productCategoryDaoJdbc = new ProductCategoryDaoJdbc();
+            ProductDaoJdbc productDaoJdbc = new ProductDaoJdbc(supplierDaoJdbc, productCategoryDaoJdbc);
+
+            if(buttonPressed.equals("add")){
+                Product product = productDaoJdbc.find(productId);
+                Cart cart = (Cart) req.getSession().getAttribute("cart");
+                cart.addProduct(product);
+                session.setAttribute("itemsNumber", cart.getProductsInCart().size());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 
 
 //        ProductDao productDataStore = ProductDaoMem.getInstance();
 //        CartDao cart = CartDaoMem.getInstance();
 //        HashMap<Integer, Integer> quantity1 = cart.getQuantity();
+
+
+
+
 
 //        if(buttonPressed.equals("add")){
 //            try {

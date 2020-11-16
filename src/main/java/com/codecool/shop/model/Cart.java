@@ -11,6 +11,7 @@ public class Cart{
     private List<Product> productsInCart;
 
     public Cart() {
+        productsInCart = new ArrayList<>();
     }
 
     public void addProduct(Product product){
