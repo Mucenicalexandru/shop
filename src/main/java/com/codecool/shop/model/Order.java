@@ -18,10 +18,10 @@ public class Order {
     private String phoneNumber;
     private String email;
     private List<Product> orderedProducts;
-    private HashMap<Integer, Integer> orderedQuantities;
+//    private HashMap<Integer, Integer> orderedQuantities;
     private String totalAmount;
 
-    public Order(UUID uuid, String firstName, String lastName, String country, String address, String postcode, String town, String phoneNumber, String email, List<Product> orderedProducts, HashMap<Integer, Integer> orderedQuantities, String totalAmount) {
+    public Order(UUID uuid, String firstName, String lastName, String country, String address, String postcode, String town, String phoneNumber, String email, List<Product> orderedProducts, String totalAmount) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.country = country;
@@ -31,7 +31,7 @@ public class Order {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.orderedProducts = orderedProducts;
-        this.orderedQuantities = orderedQuantities;
+//        this.orderedQuantities = orderedQuantities;
         this.totalAmount = totalAmount;
         this.uuid = UUID.randomUUID();
     }
@@ -124,11 +124,11 @@ public class Order {
         this.totalAmount = totalAmount;
     }
 
-    public HashMap<Integer, Integer> getOrderedQuantities() {
-        return orderedQuantities;
-    }
-
-    public void setOrderedQuantities(HashMap<Integer, Integer> quantitiesOrdered) {
-        this.orderedQuantities = quantitiesOrdered;
-    }
+//    public HashMap<Integer, Integer> getOrderedQuantities() {
+//        return orderedQuantities;
+//    }
+//
+//    public void setOrderedQuantities(HashMap<Integer, Integer> quantitiesOrdered) {
+//        this.orderedQuantities = quantitiesOrdered;
+//    }
 }

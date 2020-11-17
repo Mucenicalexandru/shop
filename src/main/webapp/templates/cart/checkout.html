@@ -64,7 +64,7 @@
 
                             <!-- First name -->
                             <div class="md-form md-outline mb-0 mb-lg-4">
-                                <input type="text" id="firstName" class="form-control mb-0 mb-lg-2" name="firstName" required>
+                                <input type="text" id="firstName" class="form-control mb-0 mb-lg-2" name="firstName" required th:value="${user.getFirstName()}">
                                 <label for="firstName">First name</label>
                             </div>
 
@@ -76,7 +76,7 @@
 
                             <!-- Last name -->
                             <div class="md-form md-outline">
-                                <input type="text" id="lastName" class="form-control" name="lastName" required>
+                                <input type="text" id="lastName" class="form-control" name="lastName" required th:value="${user.getLastName()}">
                                 <label for="lastName">Last name</label>
                             </div>
 
@@ -95,8 +95,8 @@
                     <!-- Country -->
                     <div class="d-flex flex-wrap">
                         <div class="select-outline position-relative w-100">
-                            <select class="mdb-select md-form md-outline" name="country" required>
-                                <option value="" disabled selected>Choose your option</option>
+                            <select class="mdb-select md-form md-outline" name="country" required th:value="${user.getCountry()}">
+                                <option th:text="${user.getCountry()}"></option>
                                 <option th:each="country : ${countries}" th:value="${country}" th:text="${country}">Europe</option>
                             </select>
                             <label>Country</label>
@@ -105,38 +105,38 @@
 
                     <!-- Address Part 1 -->
                     <div class="md-form md-outline mt-0">
-                        <input type="text" id="address" placeholder="House number and street name" class="form-control" name="address" required>
+                        <input type="text" id="address" placeholder="House number and street name" class="form-control" name="address" required th:value="${user.getAddress()}">
                         <label for="address">Address</label>
                     </div>
 
                     <!-- Address Part 2 -->
                     <div class="md-form md-outline">
                         <input type="text" id="form15" placeholder="Apartment, suite, unit etc. (optional)"
-                               class="form-control" required>
+                               class="form-control">
                         <label for="form15">Address</label>
                     </div>
 
                     <!-- Postcode / ZIP -->
                     <div class="md-form md-outline">
-                        <input type="text" id="postcode" class="form-control" name="postcode" required>
+                        <input type="text" id="postcode" class="form-control" name="postcode" required th:value="${user.getPostcode()}">
                         <label for="postcode">Postcode / ZIP</label>
                     </div>
 
                     <!-- Town / City -->
                     <div class="md-form md-outline">
-                        <input type="text" id="town" class="form-control" name="town" required>
+                        <input type="text" id="town" class="form-control" name="town" required th:value="${user.getTown()}">
                         <label for="town">Town / City</label>
                     </div>
 
                     <!-- Phone -->
                     <div class="md-form md-outline">
-                        <input type="number" id="phone" class="form-control" name="phone" required>
+                        <input type="number" id="phone" class="form-control" name="phone" required th:value="${user.getPhone()}">
                         <label for="phone">Phone</label>
                     </div>
 
                     <!-- Email address -->
                     <div class="md-form md-outline">
-                        <input type="email" id="email" class="form-control" name="email" required>
+                        <input type="email" id="email" class="form-control" name="email" required th:value="${user.getEmail()}">
                         <label for="email">Email address</label>
                     </div>
 
@@ -144,12 +144,6 @@
                     <div class="md-form md-outline">
                         <textarea id="form76" class="md-textarea form-control" rows="4"></textarea>
                         <label for="form76">Additional information</label>
-                    </div>
-
-                    <div class="form-check pl-0 mb-4 mb-lg-0">
-                        <input type="checkbox" class="form-check-input filled-in" id="new3">
-                        <label class="form-check-label small text-uppercase card-link-secondary" for="new3">Create an
-                            account?</label>
                     </div>
 
                 </div>

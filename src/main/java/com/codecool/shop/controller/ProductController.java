@@ -68,14 +68,6 @@ public class ProductController extends HttpServlet {
         }
 
 
-
-
-
-
-
-
-
-
 //        if(quantity.size()>0){
 //            for(Object value: quantity.values()){
 //                itemsNumber+= (int)value;
@@ -128,6 +120,12 @@ public class ProductController extends HttpServlet {
                 Cart cart = (Cart) req.getSession().getAttribute("cart");
                 cart.addProduct(product);
                 session.setAttribute("itemsNumber", cart.getProductsInCart().size());
+                int totalPrice = 0;
+                for(Product product1 : cart.getProductsInCart()){
+                    totalPrice += product1.getDefaultPrice();
+                }
+                session.setAttribute("totalOrderAmount", totalPrice);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();

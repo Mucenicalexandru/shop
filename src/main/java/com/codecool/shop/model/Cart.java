@@ -1,7 +1,9 @@
 package com.codecool.shop.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Cart{
 
@@ -9,6 +11,7 @@ public class Cart{
     private int productId;
     private int quantity;
     private List<Product> productsInCart;
+
 
     public Cart() {
         productsInCart = new ArrayList<>();
@@ -18,13 +21,16 @@ public class Cart{
         productsInCart.add(product);
     }
 
+
     public List<Product> getProductsInCart(){
         return productsInCart;
     }
 
     public void removeProduct(Product product){
-        if(productsInCart.contains(product)){
-            productsInCart.remove(product);
+        for(Product product1 : productsInCart){
+            if(product1.equals(product)){
+                productsInCart.remove(product);
+            }
         }
     }
 

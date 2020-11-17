@@ -46,7 +46,45 @@ public class UserDaoJdbc implements AbstractDao<User>, UserDao {
 
     @Override
     public User find(int id) {
-        return null;
+        User user = null;
+        String sql = "SELECT * FROM registered_users WHERE id = ?";
+
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)) {
+
+
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                String firstName = resultSet.getString("first_name");
+                String lastName = resultSet.getString("last_name");
+                String country = resultSet.getString("country");
+                String address = resultSet.getString("address");
+                String postcode = resultSet.getString("postcode");
+                String town = resultSet.getString("town");
+                String phone = resultSet.getString("phone");
+                String email = resultSet.getString("email");
+                String password = resultSet.getString("password");
+
+
+                user = new User(firstName,
+                        lastName,
+                        country,
+                        address,
+                        postcode,
+                        town,
+                        phone,
+                        email,
+                        password
+                );
+
+                user.setId(id);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 
     @Override

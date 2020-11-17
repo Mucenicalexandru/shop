@@ -2,6 +2,7 @@ package com.codecool.shop.controller;
 
 
 import com.codecool.shop.dao.JdbcImplementation.UserDaoJdbc;
+import com.codecool.shop.model.Cart;
 import com.codecool.shop.model.User;
 
 import javax.servlet.ServletException;
@@ -9,12 +10,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet(urlPatterns = {"/register"})
 public class Register extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
 
         //get user info
         String firstName = request.getParameter("firstName");
@@ -36,8 +39,12 @@ public class Register extends HttpServlet {
             UserDaoJdbc userDaoJdbc = new UserDaoJdbc();
             userDaoJdbc.add(user);
             int userId = userDaoJdbc.findByEmail(email).getId();
-            request.getSession().setAttribute("user", firstName);
-            request.getSession().setAttribute("userId", userId);
+            session.setAttribute("user", firstName);
+            session.setAttribute("userId", userId);
+            Cart cart = new Cart();
+            cart.setId(user.getId());
+            session.setAttribute("cart", cart);
+            session.setAttribute("itemsNumber", cart.getProductsInCart().size());
         } catch (SQLException throwable) {
             throwable.printStackTrace();
         }

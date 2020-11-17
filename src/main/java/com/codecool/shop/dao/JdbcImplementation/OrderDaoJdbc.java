@@ -18,7 +18,7 @@ public class OrderDaoJdbc implements AbstractDao<Order> {
 
     @Override
     public void add(Order order) {
-
+        //TODO to add the orders into the database
     }
 
     @Override
