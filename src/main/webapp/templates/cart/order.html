@@ -48,10 +48,10 @@
                 <div class="col-xs-6 col-sm-6 col-md-6">
                     <address>
                         <strong>Shipping Address</strong>
-                        <p th:text="${lastOrder.getAddress()}"></p>
-                        <p th:text="${lastOrder.getPostcode()} + ', ' + ${lastOrder.getTown()}"></p>
-                        <abbr title="Phone" th:text="'Phone: ' + ${lastOrder.getPhoneNumber()}"></abbr><br>
-                        <abbr title="email" th:text="'Email: ' + ${lastOrder.getEmail()}"></abbr>
+                        <p th:text="${user.getAddress()}"></p>
+                        <p th:text="${user.getPostcode()} + ', ' + ${user.getTown()}"></p>
+                        <abbr title="Phone" th:text="'Phone: ' + ${user.getPhone()}"></abbr><br>
+                        <abbr title="email" th:text="'Email: ' + ${user.getEmail()}"></abbr>
                     </address>
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-6 text-right">
@@ -59,7 +59,7 @@
                         <em th:text="'Date : ' + ${date}"></em>
                     </p>
                     <p>
-                        <em th:text="'Receipt : ' + ${lastOrder.getUuid()}"></em>
+<!--                        <em th:text="'Receipt : ' + ${lastOrder.getUuid()}"></em>-->
                     </p>
                 </div>
             </div>
@@ -79,11 +79,11 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="orderedProduct : ${lastOrder.getOrderedProducts()}">
-                        <td class="col-md-9"><em th:text="${orderedProduct.getName()}"></em></h4></td>
-                        <td class="col-md-1" style="text-align: center" th:text="${lastOrder.getOrderedQuantities().get(orderedProduct.getId())}">1</td>
-                        <td class="col-md-1 text-center" th:text="${orderedProduct.getPrice()}"></td>
-                        <td class="col-md-1 text-center" th:text="${orderedProduct.getDefaultPrice()} * ${lastOrder.getOrderedQuantities().get(orderedProduct.getId())}"></td>
+                    <tr th:each="product : ${cart}">
+                        <td class="col-md-9"><em th:text="${product}"></em></h4></td>
+<!--                        <td class="col-md-1" style="text-align: center" th:text="${lastOrder.getOrderedQuantities().get(orderedProduct.getId())}">1</td>-->
+                        <td class="col-md-1 text-center" th:text="${product}"></td>
+<!--                        <td class="col-md-1 text-center" th:text="${orderedProduct.getDefaultPrice()} * ${lastOrder.getOrderedQuantities().get(orderedProduct.getId())}"></td>-->
                     </tr>
 <!--                    <tr>-->
 <!--                        <td class="col-md-9"><em th:text="${lastOrder.getOrderedProducts().get(1).getName()}"></em></h4></td>-->
@@ -103,17 +103,17 @@
                             </p></td>
                         <td class="text-center">
                             <p>
-                                <strong th:text="${finalPrice} - (${finalPrice} * 5 / 100) + 'EUR'"></strong>
+<!--                                <strong th:text="${finalPrice} - (${finalPrice} * 5 / 100) + 'EUR'"></strong>-->
                             </p>
                             <p>
-                                <strong th:text="${finalPrice} * 5 / 100"></strong>
+<!--                                <strong th:text="${finalPrice} * 5 / 100"></strong>-->
                             </p></td>
                     </tr>
                     <tr>
                         <td>   </td>
                         <td>   </td>
                         <td class="text-right"><h4><strong>Total: </strong></h4></td>
-                        <td class="text-center text-danger" th:text="${finalPrice} + 'EUR'"><h4><strong></strong></h4></td>
+<!--                        <td class="text-center text-danger" th:text="${finalPrice} + 'EUR'"><h4><strong></strong></h4></td>-->
                     </tr>
                     </tbody>
                 </table>

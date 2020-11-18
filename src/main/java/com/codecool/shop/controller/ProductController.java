@@ -132,15 +132,6 @@ public class ProductController extends HttpServlet {
         }
 
 
-
-//        ProductDao productDataStore = ProductDaoMem.getInstance();
-//        CartDao cart = CartDaoMem.getInstance();
-//        HashMap<Integer, Integer> quantity1 = cart.getQuantity();
-
-
-
-
-
 //        if(buttonPressed.equals("add")){
 //            try {
 //

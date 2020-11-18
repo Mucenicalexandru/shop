@@ -11,6 +11,10 @@ import java.io.IOException;
 public class Logout extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, IOException {
         request.getSession().removeAttribute("user");
+        request.getSession().removeAttribute("userId");
+        request.getSession().removeAttribute("itemsNumber");
+        request.getSession().removeAttribute("totalOrderAmount");
+        request.getSession().removeAttribute("cart");
 
         response.sendRedirect("/index");
     }

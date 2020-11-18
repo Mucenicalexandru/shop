@@ -32,9 +32,9 @@ public class Connector {
         dataSource.setUser(properties.getProperty("user"));
         dataSource.setPassword(properties.getProperty("password"));
 
-        System.out.println("Trying to connect...");
+//        System.out.println("Trying to connect...");
         dataSource.getConnection().close();
-        System.out.println("Connection ok.");
+//        System.out.println("Connection ok.");
 
         return dataSource;
     }

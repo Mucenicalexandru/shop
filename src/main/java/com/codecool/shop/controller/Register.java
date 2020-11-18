@@ -4,6 +4,7 @@ package com.codecool.shop.controller;
 import com.codecool.shop.dao.JdbcImplementation.UserDaoJdbc;
 import com.codecool.shop.model.Cart;
 import com.codecool.shop.model.User;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,23 +29,27 @@ public class Register extends HttpServlet {
         String town = request.getParameter("town");
         String phone = request.getParameter("phone");
         String email = request.getParameter("email");
-        String password = request.getParameter("password");
-
+        String password = BCrypt.hashpw(request.getParameter("password"), BCrypt.gensalt(10));
 
         //build the User
         User user = new User(firstName, lastName, country, address, postcode, town, phone, email, password);
 
-        //connect to DB
+
         try {
+            //connect to DB
             UserDaoJdbc userDaoJdbc = new UserDaoJdbc();
-            userDaoJdbc.add(user);
-            int userId = userDaoJdbc.findByEmail(email).getId();
-            session.setAttribute("user", firstName);
-            session.setAttribute("userId", userId);
-            Cart cart = new Cart();
-            cart.setId(user.getId());
-            session.setAttribute("cart", cart);
-            session.setAttribute("itemsNumber", cart.getProductsInCart().size());
+            if(userDaoJdbc.findByEmail(email) != null){
+                boolean emailAlreadyRegistered = true;
+            }else{
+                userDaoJdbc.add(user);
+                int userId = userDaoJdbc.findByEmail(email).getId();
+                session.setAttribute("user", firstName);
+                session.setAttribute("userId", userId);
+                Cart cart = new Cart();
+                cart.setId(user.getId());
+                session.setAttribute("cart", cart);
+                session.setAttribute("itemsNumber", cart.getProductsInCart().size());
+            }
         } catch (SQLException throwable) {
             throwable.printStackTrace();
         }

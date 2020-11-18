@@ -56,15 +56,16 @@ public class Checkout extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = null;
-        Order order = null;
-        String finalPrice = String.valueOf(req.getSession().getAttribute("totalOrderAmount"));
+        User user;
+        Order order;
+//        String finalPrice = String.valueOf(req.getSession().getAttribute("totalOrderAmount"));
         Cart cart = (Cart) req.getSession().getAttribute("cart");
 
         try {
             UserDaoJdbc userDaoJdbc = new UserDaoJdbc();
             OrderDaoJdbc orderDaoJdbc = new OrderDaoJdbc();
             user = userDaoJdbc.find((int)req.getSession().getAttribute("userId"));
+
             for(Product product : cart.getProductsInCart()){
                 order = new Order(user, product);
                 orderDaoJdbc.add(order);
@@ -73,9 +74,6 @@ public class Checkout extends HttpServlet {
         } catch (SQLException throwable) {
             throwable.printStackTrace();
         }
-
-
-
 
         resp.sendRedirect("/payment");
     }
