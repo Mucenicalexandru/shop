@@ -6,7 +6,7 @@ import com.codecool.shop.model.Order;
 
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 public class OrderDaoJdbc implements AbstractDao<Order> {
@@ -18,7 +18,23 @@ public class OrderDaoJdbc implements AbstractDao<Order> {
 
     @Override
     public void add(Order order) {
-        //TODO to add the orders into the database
+        String sql = "INSERT INTO orders(date, user_id, product_id, quantity) VALUES (?, ?, ?, ?)";
+
+        try(Connection connection = dataSource.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setDate(1, order.getDate());
+            statement.setInt(2, order.getUserId());
+            statement.setInt(3, order.getProductId());
+            statement.setInt(4, 1);
+
+            statement.executeUpdate();
+
+            ResultSet resultSet = statement.getGeneratedKeys();
+            resultSet.next();
+//            order.setId(resultSet.getInt(1));
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -54,8 +54,7 @@ CREATE TABLE orders(
                        date timestamp NOT NULL,
                        user_id INTEGER NOT NULL,
                        product_id INTEGER NOT NULL,
-                       quantity INTEGER NOT NULL,
-                       total_price INTEGER NOT NULL
+                       quantity INTEGER NOT NULL
 );
 
 

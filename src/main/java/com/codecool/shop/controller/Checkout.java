@@ -59,36 +59,23 @@ public class Checkout extends HttpServlet {
         User user = null;
         Order order = null;
         String finalPrice = String.valueOf(req.getSession().getAttribute("totalOrderAmount"));
-
-        try {
-            UserDaoJdbc userDaoJdbc = new UserDaoJdbc();
-            user = userDaoJdbc.find((int)req.getSession().getAttribute("userId"));
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
-        }
-
         Cart cart = (Cart) req.getSession().getAttribute("cart");
 
         try {
+            UserDaoJdbc userDaoJdbc = new UserDaoJdbc();
             OrderDaoJdbc orderDaoJdbc = new OrderDaoJdbc();
+            user = userDaoJdbc.find((int)req.getSession().getAttribute("userId"));
+            for(Product product : cart.getProductsInCart()){
+                order = new Order(user, product);
+                orderDaoJdbc.add(order);
+            }
 
-            UUID uuid = UUID.randomUUID();
-            order = new Order(uuid,
-                    user.getFirstName(),
-                    user.getLastName(),
-                    user.getCountry(),
-                    user.getAddress(),
-                    user.getPostcode(),
-                    user.getTown(),
-                    user.getPhone(),
-                    user.getEmail(),
-                    cart.getProductsInCart(),
-                    finalPrice);
-
-            orderDaoJdbc.add(order);
         } catch (SQLException throwable) {
             throwable.printStackTrace();
         }
+
+
+
 
         resp.sendRedirect("/payment");
     }
