@@ -29,6 +29,7 @@ public class Register extends HttpServlet {
         String town = request.getParameter("town");
         String phone = request.getParameter("phone");
         String email = request.getParameter("email");
+        //The default log_rounds is 10, and the valid range is 4 to 31.
         String password = BCrypt.hashpw(request.getParameter("password"), BCrypt.gensalt(10));
 
         //build the User

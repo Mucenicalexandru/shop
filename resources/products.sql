@@ -16,7 +16,7 @@
 -- INSERT INTO products(name, description, default_price, default_currency, category_id, supplier_id) VALUES ('Mercedes-Benz S 65 AMG', '', 105950, 'EUR', 1, 1);
 -- INSERT INTO products(name, description, default_price, default_currency, category_id, supplier_id) VALUES ('Mercedes-Benz Mercedes-Benz AMG', '', 249500, 'EUR', 1, 1);
 -- INSERT INTO products(name, description, default_price, default_currency, category_id, supplier_id) VALUES ('Mercedes-Benz G 63 AMG', '', 244760, 'EUR', 1, 1);
---
+
 -- INSERT INTO products(name, description, default_price, default_currency, category_id, supplier_id) VALUES ('Audi R8 Coupe', '', 243980, 'EUR', 1, 3);
 -- INSERT INTO products(name, description, default_price, default_currency, category_id, supplier_id) VALUES ('Audi RS6', '', 234900, 'EUR', 1, 3);
 -- INSERT INTO products(name, description, default_price, default_currency, category_id, supplier_id) VALUES ('Audi RSQ8 quattro', '', 215700, 'EUR', 1, 3);

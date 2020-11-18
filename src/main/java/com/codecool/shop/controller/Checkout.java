@@ -1,16 +1,12 @@
 package com.codecool.shop.controller;
 
 import com.codecool.shop.config.TemplateEngineUtil;
-//import com.codecool.shop.dao.memoryImplementation.CartDaoMem;
-//import com.codecool.shop.dao.memoryImplementation.OrderDaoMem;
 import com.codecool.shop.dao.JdbcImplementation.OrderDaoJdbc;
 import com.codecool.shop.dao.JdbcImplementation.UserDaoJdbc;
 import com.codecool.shop.model.Cart;
 import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.User;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -19,10 +15,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 
 @WebServlet(urlPatterns = {"/checkout"})
 public class Checkout extends HttpServlet {
@@ -67,7 +65,8 @@ public class Checkout extends HttpServlet {
             user = userDaoJdbc.find((int)req.getSession().getAttribute("userId"));
 
             for(Product product : cart.getProductsInCart()){
-                order = new Order(user, product);
+                order = new Order(user);
+                order.setProductId(product.getId());
                 orderDaoJdbc.add(order);
             }
 

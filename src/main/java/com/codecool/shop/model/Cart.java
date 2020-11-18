@@ -14,11 +14,14 @@ public class Cart{
 
 
     public Cart() {
+
         productsInCart = new ArrayList<>();
     }
 
     public void addProduct(Product product){
+
         productsInCart.add(product);
+        this.productId = product.getId();
     }
 
 
@@ -57,6 +60,7 @@ public class Cart{
     }
 
     public int getProductId() {
+
         return productId;
     }
 

@@ -9,7 +9,7 @@ public interface AbstractDao<T> {
 
     //CRUD operations
 
-    void add(T t) throws SQLException;
+    void add(T t);
     T find(int id);
     void remove(int id);
     List<T> getAll();

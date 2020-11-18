@@ -11,11 +11,9 @@ public class Order {
     private int userId;
     private int productId;
 
-    public Order (User user, Product product){
-
+    public Order (User user){
         this.date = new java.sql.Date(millis);
         this.userId = user.getId();
-        this.productId = product.getId();
     }
 
 

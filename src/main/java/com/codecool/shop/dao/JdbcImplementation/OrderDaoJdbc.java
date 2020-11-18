@@ -2,16 +2,25 @@ package com.codecool.shop.dao.JdbcImplementation;
 
 import com.codecool.shop.config.Connector;
 import com.codecool.shop.dao.AbstractDao;
+import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.model.Order;
+import com.codecool.shop.model.Product;
+import com.codecool.shop.model.Supplier;
+import com.codecool.shop.model.User;
 
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class OrderDaoJdbc implements AbstractDao<Order> {
+public class OrderDaoJdbc implements AbstractDao<Order>, OrderDao<Order> {
 
     private DataSource dataSource;
+    private AbstractDao userDaoJdbc;
+    private AbstractDao productDaoJdbc;
+
     public OrderDaoJdbc() throws IOException, SQLException {
         this.dataSource = Connector.connect();
     }
@@ -54,6 +63,12 @@ public class OrderDaoJdbc implements AbstractDao<Order> {
 
     @Override
     public List<Order> getBy(int id) {
+        return null;
+    }
+
+
+    @Override
+    public List<Order> getAllByUserId(int userId) {
         return null;
     }
 }

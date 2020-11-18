@@ -44,6 +44,8 @@ public class ProductController extends HttpServlet {
 
 
 
+        context.setVariable("modal", true);
+
         String categoryId = req.getParameter("categoryId");
         String supplierId = req.getParameter("supplierId");
 

@@ -1,11 +1,10 @@
 package com.codecool.shop.controller;
 
 import com.codecool.shop.config.TemplateEngineUtil;
-import com.codecool.shop.dao.JdbcImplementation.ProductCategoryDaoJdbc;
-import com.codecool.shop.dao.JdbcImplementation.ProductDaoJdbc;
-import com.codecool.shop.dao.JdbcImplementation.SupplierDaoJdbc;
+import com.codecool.shop.dao.JdbcImplementation.*;
 import com.codecool.shop.model.Cart;
 import com.codecool.shop.model.Product;
+import com.codecool.shop.model.User;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -70,8 +69,25 @@ public class CartController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String buttonPressed = req.getParameter("button");
-        int productId = Integer.parseInt(req.getParameter("productId"));
-        HttpSession session = req.getSession();
+//        int productId = Integer.parseInt(req.getParameter("productId"));
+        int userId = (int) req.getSession().getAttribute("userId");
+        Cart cart = (Cart) req.getSession().getAttribute("cart");
+        String saveButton = req.getParameter("saveButton");
+
+        if (saveButton.equals("save")){
+            try {
+                CartDaoJdbc cartDaoJdbc = new CartDaoJdbc();
+                UserDaoJdbc userDaoJdbc = new UserDaoJdbc();
+                User user = userDaoJdbc.find(userId);
+
+                for(Product product : cart.getProductsInCart()){
+                    cartDaoJdbc.addProduct(product, user);
+                }
+            } catch (SQLException throwable) {
+                throwable.printStackTrace();
+            }
+        }
+
 //        ProductDao productDataStore = ProductDaoMem.getInstance();
 //        CartDao cart = CartDaoMem.getInstance();
 //        HashMap<Integer, Integer> quantity = cart.getQuantity();
@@ -93,16 +109,16 @@ public class CartController extends HttpServlet {
 //
 //
 //        int quantityNumber = quantity.get(productId);
-        Cart cart = (Cart) req.getSession().getAttribute("cart");
-        try {
-            SupplierDaoJdbc supplierDaoJdbc = new SupplierDaoJdbc();
-            ProductCategoryDaoJdbc productCategoryDaoJdbc = new ProductCategoryDaoJdbc();
-            ProductDaoJdbc productDaoJdbc = new ProductDaoJdbc(supplierDaoJdbc, productCategoryDaoJdbc);
+//        Cart cart = (Cart) req.getSession().getAttribute("cart");
+//        try {
+//            SupplierDaoJdbc supplierDaoJdbc = new SupplierDaoJdbc();
+//            ProductCategoryDaoJdbc productCategoryDaoJdbc = new ProductCategoryDaoJdbc();
+//            ProductDaoJdbc productDaoJdbc = new ProductDaoJdbc(supplierDaoJdbc, productCategoryDaoJdbc);
 
-            switch (buttonPressed) {
-                case "+":
-                    cart.addProduct(productDaoJdbc.find(productId));
-                    break;
+//            switch (buttonPressed) {
+//                case "+":
+//                    cart.addProduct(productDaoJdbc.find(productId));
+//                    break;
 //                case "-":
 //                    if (quantityNumber == 1) {
 //                        cart.remove(productDataStore.find(productId));
@@ -112,15 +128,15 @@ public class CartController extends HttpServlet {
 //                        quantity.replace(productId, quantityNumber);
 //                    }
 //                    break;
-                case "remove":
-                    cart.getProductsInCart().remove(productDaoJdbc.find(productId));
-                    session.setAttribute("cart", cart);
-                    break;
-            }
-
-        }catch (SQLException e) {
-            e.printStackTrace();
-        }
+//                case "remove":
+//                    cart.getProductsInCart().remove(productDaoJdbc.find(productId));
+//                    session.setAttribute("cart", cart);
+//                    break;
+//            }
+//
+//        }catch (SQLException e) {
+//            e.printStackTrace();
+//        }
 
 
 
