@@ -8,14 +8,17 @@ public class Order {
 
     long millis=System.currentTimeMillis();
     private java.sql.Date date;
+
     private int userId;
     private int productId;
+    private int quantity;
 
-    public Order (User user){
+    public Order (Integer userId, Integer productId, Integer quantity){
         this.date = new java.sql.Date(millis);
-        this.userId = user.getId();
+        this.userId = userId;
+        this.productId = productId;
+        this.quantity = quantity;
     }
-
 
     public Date getDate() {
         return date;
@@ -39,5 +42,13 @@ public class Order {
 
     public void setProductId(int productId) {
         this.productId = productId;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

@@ -47,13 +47,15 @@
 
         <!-- Right -->
         <ul class="navbar-nav nav-flex-icons ml-auto">
-            <li class="nav-item dropdown notifications-nav pr-md-3">
-                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink151" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="true">
-                    <p class="badge badge-pill bg-danger" th:text="${itemsNumber}" style="color: white"></p>
-                    <span><i class="fas fa-shopping-cart pl-0"></i></span>
-                </a>
-            </li>
+            <div th:if="${session.user}">
+                <li class="nav-item dropdown notifications-nav pr-md-3">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink151" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="true">
+                        <p class="badge badge-pill bg-danger" th:text="${itemsNumber}" style="color: white"></p>
+                        <span><i class="fas fa-shopping-cart pl-0"></i></span>
+                    </a>
+                </li>
+            </div>
         </ul>
 
     </div>
@@ -74,7 +76,7 @@
 
                     <div class="col-12 mb-0">
                         <figure class="view overlay rounded z-depth-1 main-img">
-                            <a href="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg"
+                            <a href="#"
                                data-size="710x823">
                                 <img width="800" height="600" th:attr="src='/static/img/product_' + ${product.getId()} + '.jpg'" alt="" />
                             </a>
@@ -120,10 +122,12 @@
             </div>
             <hr>
 <!--the action is on /index where we already have the button values and the hidden input parameter-->
-            <form th:action="@{/index}" method="post">
-                <input type="hidden" th:value="${product.id}" name="productId">
-                <button type="submit" name="button" value="add" class="btn btn-primary btn-md mr-1 mb-2"><i class="fas fa-shopping-cart pr-2"></i>Add to cart</button>
-            </form>
+            <div th:if="${session.user}">
+                <form th:action="@{/index}" method="post">
+                    <input type="hidden" th:value="${product.id}" name="productId">
+                    <button type="submit" name="button" value="add" class="btn btn-primary btn-md mr-1 mb-2"><i class="fas fa-shopping-cart pr-2"></i>Add to cart</button>
+                </form>
+            </div>
         </div>
     </div>
 

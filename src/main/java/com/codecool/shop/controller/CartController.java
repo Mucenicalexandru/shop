@@ -33,7 +33,6 @@ public class CartController extends HttpServlet {
         Cart cart = (Cart) req.getSession().getAttribute("cart");
 
         int totalPrice = (int) req.getSession().getAttribute("totalOrderAmount");
-        System.out.println("INITIAL : " + totalPrice);
 
         try {
             SupplierDaoJdbc supplierDaoJdbc = new SupplierDaoJdbc();
@@ -50,30 +49,9 @@ public class CartController extends HttpServlet {
         }
 
 
-
-
-//        cart.getAll().forEach(product -> {
-//            totalPriceToSend.updateAndGet(v -> v + (product.getDefaultPrice() *  (int)quantityRegister.get(product.getId())));
-//        });
-
-
-//        try {
-//            CartDaoJdbc cartDaoDB = new CartDaoJdbc(Connector.connect());
-//            ProductDaoJdbc productDaoDB = new ProductDaoJdbc(Connector.connect());
-//            cartDaoDB.getAll((Integer) req.getSession().getAttribute("userID")).forEach(productId->{
-//                productsInShoppingCart.add(productDaoDB.find(productId));
-//            });
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-
-
         context.setVariable("totalOrderAmount", totalPrice);
         context.setVariable("quantity", cart.getDict());
-//
-//        int totalPriceToSend = (int) req.getSession().getAttribute("totalPrice");
-//        context.setVariable("totalOrderAmount", totalPriceToSend);
-//        req.getSession().setAttribute("finalPrice", totalPriceToSend);
+
 
         engine.process("cart/cart.html", context, resp.getWriter());
     }
@@ -116,6 +94,11 @@ public class CartController extends HttpServlet {
                     break;
                 case "save":
                     CartDaoJdbc cartDaoJdbc = new CartDaoJdbc();
+
+                    if(cartDaoJdbc.getProductIdByUserId(userId).size() > 0){
+                        cartDaoJdbc.removeProductsByUserId(userId);
+                    }
+
                     for(Integer prodId : cart.getDict().keySet()){
                         cartDaoJdbc.addProduct(userId, prodId, cart.getDict().get(prodId));
                     }

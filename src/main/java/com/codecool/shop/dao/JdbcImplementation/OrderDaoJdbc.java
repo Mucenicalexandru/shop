@@ -34,7 +34,7 @@ public class OrderDaoJdbc implements AbstractDao<Order>, OrderDao<Order> {
             statement.setDate(1, order.getDate());
             statement.setInt(2, order.getUserId());
             statement.setInt(3, order.getProductId());
-            statement.setInt(4, 1);
+            statement.setInt(4, order.getQuantity());
 
             statement.executeUpdate();
 

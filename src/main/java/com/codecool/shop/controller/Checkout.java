@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -53,24 +54,30 @@ public class Checkout extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user;
+        HttpSession session = req.getSession();
         Order order;
-//        String finalPrice = String.valueOf(req.getSession().getAttribute("totalOrderAmount"));
         Cart cart = (Cart) req.getSession().getAttribute("cart");
 
         try {
-            UserDaoJdbc userDaoJdbc = new UserDaoJdbc();
+            //connect to DB
             OrderDaoJdbc orderDaoJdbc = new OrderDaoJdbc();
-            SupplierDaoJdbc supplierDaoJdbc = new SupplierDaoJdbc();
-            ProductCategoryDaoJdbc productCategoryDaoJdbc = new ProductCategoryDaoJdbc();
-            ProductDaoJdbc productDaoJdbc = new ProductDaoJdbc(supplierDaoJdbc, productCategoryDaoJdbc);
-            user = userDaoJdbc.find((int)req.getSession().getAttribute("userId"));
+            CartDaoJdbc cartDaoJdbc = new CartDaoJdbc();
 
+            int userId = (int) req.getSession().getAttribute("userId");
+
+            //when checkout we add the order to DB
             for(Integer productId : cart.getProductsInCart()){
-                order = new Order(user);
-                order.setProductId(productId);
+                order = new Order(userId, productId, cart.getDict().get(productId));
                 orderDaoJdbc.add(order);
             }
+
+            //if cart from DB contains saved items and user pays them, then remove them
+            if(cartDaoJdbc.getProductIdByUserId(userId).size() > 0){
+                cartDaoJdbc.removeProductsByUserId(userId);
+            }
+
+            session.setAttribute("itemsInCart", 0);
+
 
         } catch (SQLException throwable) {
             throwable.printStackTrace();

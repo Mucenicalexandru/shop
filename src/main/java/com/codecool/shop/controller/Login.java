@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -22,11 +23,10 @@ import java.util.Optional;
 public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
+        Cart cart = null;
 
         //user info
         String email = request.getParameter("email");
-
-
 
         try {
             UserDaoJdbc usersDaoDB = new UserDaoJdbc();
@@ -34,24 +34,34 @@ public class Login extends HttpServlet {
             SupplierDaoJdbc supplierDaoJdbc = new SupplierDaoJdbc();
             ProductCategoryDaoJdbc productCategoryDaoJdbc = new ProductCategoryDaoJdbc();
             ProductDaoJdbc productDaoJdbc = new ProductDaoJdbc(supplierDaoJdbc, productCategoryDaoJdbc);
-
             User user = usersDaoDB.findByEmail(email);
             List<Integer> productIdList = cartDaoJdbc.getProductIdByUserId(user.getId());
 
+
+            int totalPrice = 0;
             if(BCrypt.checkpw(request.getParameter("password"), user.getPassword()) ){
-                Cart cart = new Cart();
-                cart.setId(user.getId());
                 if(productIdList.size() > 0){
-                    for(Integer id : productIdList){
-                        cart.addProduct(productDaoJdbc.find(id));
+                    cart = new Cart();
+                    for(Integer productId : productIdList){
+                        cart.addProduct(productDaoJdbc.find(productId));
+                        totalPrice = (int) (totalPrice + productDaoJdbc.find(productId).getDefaultPrice() * cart.getDict().get(productId));
+                        //TODO have to update the dictionary with quantity values
+                        session.setAttribute("itemsInCart", cart.getProductsInCart().size());
+                        session.setAttribute("cart", cart);
+                        session.setAttribute("totalOrderAmount", totalPrice);
                     }
+                }else{
+                    cart = new Cart();
+                    cart.setId(user.getId());
+                    session.setAttribute("cart", cart);
+                    session.setAttribute("itemsInCart", 0);
+                    session.setAttribute("totalOrderAmount", 0);
+                    session.setAttribute("itemsInCart", 0);
                 }
+
                 session.setAttribute("user", user.getFirstName());
                 session.setAttribute("userId", user.getId());
-                session.setAttribute("cart", cart);
                 session.setAttribute("itemsNumber", cart.getProductsInCart().size());
-                session.setAttribute("totalOrderAmount", 0);
-
                 response.sendRedirect("/index");
             } else {
                 System.out.println("the password dose not match");

@@ -7,9 +7,8 @@ import java.util.Map;
 
 public class Cart{
 
-    private int id; //userId
+    private int id; //same like userId
     private int productId;
-//    private int quantity;
     private List<Integer> productsInCart;
     private HashMap<Integer, Integer> quantities;
 
@@ -53,15 +52,6 @@ public class Cart{
         quantities = new HashMap<>();
     }
 
-//    public double getTotalPrice(){
-//        double totalPrice = 0;
-//
-//        for(Integer productId : productsInCart){
-//            totalPrice += product.getDefaultPrice();
-//        }
-//
-//        return totalPrice;
-//    }
 
     public int getId() {
         return id;
@@ -79,14 +69,6 @@ public class Cart{
     public void setProductId(int productId) {
         this.productId = productId;
     }
-
-//    public int getQuantity() {
-//        return quantity;
-//    }
-//
-//    public void setQuantity(int quantity) {
-//        this.quantity = quantity;
-//    }
 
 
     @Override
