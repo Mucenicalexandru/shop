@@ -12,7 +12,6 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class OrderDaoJdbc implements AbstractDao<Order>, OrderDao<Order> {
@@ -58,7 +57,37 @@ public class OrderDaoJdbc implements AbstractDao<Order>, OrderDao<Order> {
 
     @Override
     public List<Order> getAll() {
-        return null;
+        List<Order> orderList = new ArrayList<>();
+        Order order;
+        String sql = "SELECT * FROM orders";
+
+        try(Connection connection = dataSource.getConnection()){
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()){
+                Date date = resultSet.getDate("date");
+                int userId = resultSet.getInt("user_id");
+                int productId = resultSet.getInt("product_id");
+                int quantity = resultSet.getInt("quantity");
+
+
+
+                order = new Order(userId,
+                        productId,
+                        quantity
+                );
+                order.setDate(date);
+
+//                supplier.setId(resultSet.getInt(1));
+                orderList.add(order);
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return orderList;
     }
 
     @Override

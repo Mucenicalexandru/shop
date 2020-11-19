@@ -20,6 +20,7 @@ public class Order {
         this.quantity = quantity;
     }
 
+
     public Date getDate() {
         return date;
     }

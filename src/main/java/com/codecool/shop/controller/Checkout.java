@@ -65,6 +65,7 @@ public class Checkout extends HttpServlet {
 
             int userId = (int) req.getSession().getAttribute("userId");
 
+
             //when checkout we add the order to DB
             for(Integer productId : cart.getProductsInCart()){
                 order = new Order(userId, productId, cart.getDict().get(productId));

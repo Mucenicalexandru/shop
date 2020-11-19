@@ -3,6 +3,7 @@ package com.codecool.shop.dao.JdbcImplementation;
 import com.codecool.shop.config.Connector;
 import com.codecool.shop.dao.AbstractDao;
 import com.codecool.shop.dao.UserDao;
+import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Supplier;
 import com.codecool.shop.model.User;
 
@@ -94,7 +95,46 @@ public class UserDaoJdbc implements AbstractDao<User>, UserDao {
 
     @Override
     public List<User> getAll() {
-        return null;
+        List<User> userList = new ArrayList<>();
+        User user;
+        String sql = "SELECT * FROM registered_users";
+
+        try(Connection connection = dataSource.getConnection()){
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()){
+                String firstName = resultSet.getString("first_name");
+                String lastName = resultSet.getString("last_name");
+                String country = resultSet.getString("country");
+                String address = resultSet.getString("address");
+                String postcode = resultSet.getString("postcode");
+                String town = resultSet.getString("town");
+                String phone = resultSet.getString("phone");
+                String email = resultSet.getString("email");
+                String password = resultSet.getString("password");
+
+                user = new User(firstName,
+                        lastName,
+                        country,
+                        address,
+                        postcode,
+                        town,
+                        phone,
+                        email,
+                        password
+                );
+
+
+                user.setId(resultSet.getInt(1));
+                userList.add(user);
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return userList;
     }
 
     @Override
