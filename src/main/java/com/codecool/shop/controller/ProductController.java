@@ -19,10 +19,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
 
-//import com.codecool.shop.dao.memoryImplementation.ProductCategoryDaoMem;
-//import com.codecool.shop.dao.memoryImplementation.ProductDaoMem;
-//import com.codecool.shop.dao.memoryImplementation.SupplierDaoMem;
-//import com.codecool.shop.dao.memoryImplementation.CartDaoMem;
+
 
 @WebServlet(urlPatterns = {"/", "/index"})
 public class ProductController extends HttpServlet {
@@ -31,20 +28,10 @@ public class ProductController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//
-
-//        ProductDao productDataStore = ProductDaoMem.getInstance();
-//        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-//        SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
-//        CartDao cart = CartDaoMem.getInstance();
-//        HashMap<Integer, Integer> quantity = cart.getQuantity();
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
 
-
-
-        context.setVariable("modal", true);
 
         String categoryId = req.getParameter("categoryId");
         String supplierId = req.getParameter("supplierId");
@@ -123,8 +110,8 @@ public class ProductController extends HttpServlet {
                 cart.addProduct(product);
                 session.setAttribute("itemsNumber", cart.getProductsInCart().size());
                 int totalPrice = 0;
-                for(Product product1 : cart.getProductsInCart()){
-                    totalPrice += product1.getDefaultPrice();
+                for(Integer integer : cart.getProductsInCart()){
+                    totalPrice += productDaoJdbc.find(integer).getDefaultPrice();
                 }
                 session.setAttribute("totalOrderAmount", totalPrice);
 

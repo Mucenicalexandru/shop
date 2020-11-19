@@ -61,9 +61,9 @@
                 <td>
                     <div>
                         <div class="number-input md-number-input">
-<!--                                <input class="quantity" min="1" name="quantity" th:value="${quantity.get(product.getId())}" type="number" id="modifiedQuantity">-->
-                                <input type="hidden" th:value="${product.getId()}" name="productId">
                                 <button class="plus increase" name="button" value="-">-</button>
+                                <input class="quantity" min="1" name="quantity" th:value="${quantity.get(product.getId())}" type="number" id="modifiedQuantity">
+                                <input type="hidden" th:value="${product.getId()}" name="productId">
                                 <button class="plus increase" name="button" value="+">+</button>
                         </div>
                     </div>

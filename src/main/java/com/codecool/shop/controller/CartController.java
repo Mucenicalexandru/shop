@@ -16,7 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @WebServlet(urlPatterns = {"/cart"})
@@ -29,11 +31,24 @@ public class CartController extends HttpServlet {
         WebContext context = new WebContext(req, resp, req.getServletContext());
 
         Cart cart = (Cart) req.getSession().getAttribute("cart");
-        context.setVariable("cart", cart.getProductsInCart());
 
         int totalPrice = (int) req.getSession().getAttribute("totalOrderAmount");
         context.setVariable("totalOrderAmount", totalPrice);
 
+        try {
+        SupplierDaoJdbc supplierDaoJdbc = new SupplierDaoJdbc();
+        ProductCategoryDaoJdbc productCategoryDaoJdbc = new ProductCategoryDaoJdbc();
+        ProductDaoJdbc productDaoJdbc = new ProductDaoJdbc(supplierDaoJdbc, productCategoryDaoJdbc);
+        List<Product> productList = new ArrayList<>();
+
+        for(Integer productId : cart.getProductsInCart()){
+            productList.add(productDaoJdbc.find(productId));
+        }
+        context.setVariable("cart", productList);
+
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
+        }
 //        CartDao cart = CartDaoMem.getInstance();
 //        HashMap <Integer, Integer> quantityRegister = cart.getQuantity();
 //        List<Product> productsInShoppingCart = new ArrayList<>();
@@ -57,7 +72,7 @@ public class CartController extends HttpServlet {
 
 
 
-//        context.setVariable("quantity" ,cart.getQuantity());
+        context.setVariable("quantity" ,cart.getDict());
 //
 //        int totalPriceToSend = (int) req.getSession().getAttribute("totalPrice");
 //        context.setVariable("totalOrderAmount", totalPriceToSend);
@@ -69,24 +84,27 @@ public class CartController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String buttonPressed = req.getParameter("button");
-//        int productId = Integer.parseInt(req.getParameter("productId"));
+        int productId = Integer.parseInt(req.getParameter("productId"));
         int userId = (int) req.getSession().getAttribute("userId");
         Cart cart = (Cart) req.getSession().getAttribute("cart");
         String saveButton = req.getParameter("saveButton");
 
-        if (saveButton.equals("save")){
-            try {
-                CartDaoJdbc cartDaoJdbc = new CartDaoJdbc();
-                UserDaoJdbc userDaoJdbc = new UserDaoJdbc();
-                User user = userDaoJdbc.find(userId);
-
-                for(Product product : cart.getProductsInCart()){
-                    cartDaoJdbc.addProduct(product, user);
-                }
-            } catch (SQLException throwable) {
-                throwable.printStackTrace();
-            }
-        }
+//        if (saveButton.equals("save")){
+//            try {
+//                SupplierDaoJdbc supplierDaoJdbc = new SupplierDaoJdbc();
+//                ProductCategoryDaoJdbc productCategoryDaoJdbc = new ProductCategoryDaoJdbc();
+//                ProductDaoJdbc productDaoJdbc = new ProductDaoJdbc(supplierDaoJdbc, productCategoryDaoJdbc);
+//                CartDaoJdbc cartDaoJdbc = new CartDaoJdbc();
+//                UserDaoJdbc userDaoJdbc = new UserDaoJdbc();
+//                User user = userDaoJdbc.find(userId);
+//
+//                for(Integer prodId : cart.getProductsInCart()){
+//                    cartDaoJdbc.addProduct(productDaoJdbc.find(prodId), user);
+//                }
+//            } catch (SQLException throwable) {
+//                throwable.printStackTrace();
+//            }
+//        }
 
 //        ProductDao productDataStore = ProductDaoMem.getInstance();
 //        CartDao cart = CartDaoMem.getInstance();
@@ -110,33 +128,35 @@ public class CartController extends HttpServlet {
 //
 //        int quantityNumber = quantity.get(productId);
 //        Cart cart = (Cart) req.getSession().getAttribute("cart");
-//        try {
-//            SupplierDaoJdbc supplierDaoJdbc = new SupplierDaoJdbc();
-//            ProductCategoryDaoJdbc productCategoryDaoJdbc = new ProductCategoryDaoJdbc();
-//            ProductDaoJdbc productDaoJdbc = new ProductDaoJdbc(supplierDaoJdbc, productCategoryDaoJdbc);
+        try {
+            SupplierDaoJdbc supplierDaoJdbc = new SupplierDaoJdbc();
+            ProductCategoryDaoJdbc productCategoryDaoJdbc = new ProductCategoryDaoJdbc();
+            ProductDaoJdbc productDaoJdbc = new ProductDaoJdbc(supplierDaoJdbc, productCategoryDaoJdbc);
 
-//            switch (buttonPressed) {
-//                case "+":
-//                    cart.addProduct(productDaoJdbc.find(productId));
-//                    break;
-//                case "-":
-//                    if (quantityNumber == 1) {
-//                        cart.remove(productDataStore.find(productId));
-//                        quantity.remove(productId);
-//                    } else {
-//                        quantityNumber--;
-//                        quantity.replace(productId, quantityNumber);
-//                    }
-//                    break;
-//                case "remove":
-//                    cart.getProductsInCart().remove(productDaoJdbc.find(productId));
-//                    session.setAttribute("cart", cart);
-//                    break;
-//            }
-//
-//        }catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+            switch (buttonPressed) {
+                case "+":
+                    cart.addProduct(productDaoJdbc.find(productId));
+                    System.out.println(cart.getDict());
+                    break;
+                case "-":
+                    if (cart.getQuantity(productId) == 1) {
+                        cart.removeProduct(productId);
+                        cart.getDict().remove(productId);
+                        System.out.println(cart.getDict());
+                    } else {
+                        cart.getDict().put(productId, cart.getDict().get(productId)-1);
+                        System.out.println(cart.getDict());
+                    }
+                    break;
+                case "remove":
+                    cart.removeProduct(productId);
+                    cart.getDict().remove(productId);
+                    break;
+            }
+
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
 
