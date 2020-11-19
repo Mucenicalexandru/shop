@@ -81,10 +81,11 @@
     </div>
     <div class="cart-buttons">
         <div th:if="${cart.size() > 0}">
-            <a th:href="@{/checkout}">
-                <button class="btn btn-primary" style="margin: 5px">Proceed to checkout</button>
-            </a>
             <form action="/cart" method="post">
+<!--            <a th:href="@{/checkout}">-->
+                <button class="btn btn-primary" style="margin: 5px" name="button" value="checkout">Proceed to checkout</button>
+<!--            </a>-->
+
                 <button class="btn btn-primary" style="margin: 5px" name="button" value="save">Save Cart</button>
             </form>
         </div>

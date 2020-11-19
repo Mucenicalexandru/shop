@@ -33,27 +33,24 @@ public class CartController extends HttpServlet {
         Cart cart = (Cart) req.getSession().getAttribute("cart");
 
         int totalPrice = (int) req.getSession().getAttribute("totalOrderAmount");
-        context.setVariable("totalOrderAmount", totalPrice);
+        System.out.println("INITIAL : " + totalPrice);
 
         try {
-        SupplierDaoJdbc supplierDaoJdbc = new SupplierDaoJdbc();
-        ProductCategoryDaoJdbc productCategoryDaoJdbc = new ProductCategoryDaoJdbc();
-        ProductDaoJdbc productDaoJdbc = new ProductDaoJdbc(supplierDaoJdbc, productCategoryDaoJdbc);
-        List<Product> productList = new ArrayList<>();
+            SupplierDaoJdbc supplierDaoJdbc = new SupplierDaoJdbc();
+            ProductCategoryDaoJdbc productCategoryDaoJdbc = new ProductCategoryDaoJdbc();
+            ProductDaoJdbc productDaoJdbc = new ProductDaoJdbc(supplierDaoJdbc, productCategoryDaoJdbc);
+            List<Product> productList = new ArrayList<>();
 
-        for(Integer productId : cart.getProductsInCart()){
-            productList.add(productDaoJdbc.find(productId));
-        }
-        context.setVariable("cart", productList);
-
+            for(Integer productId : cart.getProductsInCart()){
+                productList.add(productDaoJdbc.find(productId));
+            }
+            context.setVariable("cart", productList);
         } catch (SQLException throwable) {
             throwable.printStackTrace();
         }
-//        CartDao cart = CartDaoMem.getInstance();
-//        HashMap <Integer, Integer> quantityRegister = cart.getQuantity();
-//        List<Product> productsInShoppingCart = new ArrayList<>();
 
-//        AtomicReference<Float> totalPriceToSend = new AtomicReference<Float>((float) 0);
+
+
 
 //        cart.getAll().forEach(product -> {
 //            totalPriceToSend.updateAndGet(v -> v + (product.getDefaultPrice() *  (int)quantityRegister.get(product.getId())));
@@ -71,8 +68,8 @@ public class CartController extends HttpServlet {
 //        }
 
 
-
-        context.setVariable("quantity" ,cart.getDict());
+        context.setVariable("totalOrderAmount", totalPrice);
+        context.setVariable("quantity", cart.getDict());
 //
 //        int totalPriceToSend = (int) req.getSession().getAttribute("totalPrice");
 //        context.setVariable("totalOrderAmount", totalPriceToSend);
@@ -84,50 +81,12 @@ public class CartController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String buttonPressed = req.getParameter("button");
+        int totalPrice = (int) req.getSession().getAttribute("totalOrderAmount");
+        HttpSession session = req.getSession();
         int productId = 0;
         int userId = (int) req.getSession().getAttribute("userId");
         Cart cart = (Cart) req.getSession().getAttribute("cart");
 
-
-//        if (saveButton.equals("save")){
-//            try {
-//                SupplierDaoJdbc supplierDaoJdbc = new SupplierDaoJdbc();
-//                ProductCategoryDaoJdbc productCategoryDaoJdbc = new ProductCategoryDaoJdbc();
-//                ProductDaoJdbc productDaoJdbc = new ProductDaoJdbc(supplierDaoJdbc, productCategoryDaoJdbc);
-//                CartDaoJdbc cartDaoJdbc = new CartDaoJdbc();
-//                UserDaoJdbc userDaoJdbc = new UserDaoJdbc();
-//                User user = userDaoJdbc.find(userId);
-//
-//                for(Integer prodId : cart.getProductsInCart()){
-//                    cartDaoJdbc.addProduct(productDaoJdbc.find(prodId), user);
-//                }
-//            } catch (SQLException throwable) {
-//                throwable.printStackTrace();
-//            }
-//        }
-
-//        ProductDao productDataStore = ProductDaoMem.getInstance();
-//        CartDao cart = CartDaoMem.getInstance();
-//        HashMap<Integer, Integer> quantity = cart.getQuantity();
-//
-//        //TODO for the moment is dummy data, user id -> Session
-//        int userId = 1;
-//        List<Product> shoppingCartWithDuplicates = new ArrayList<>();
-//
-//        try {
-//            CartDaoJdbc cartDaoDB = new CartDaoJdbc(Connector.connect());
-//            ProductDaoJdbc productDaoDB = new ProductDaoJdbc(Connector.connect());
-//            cartDaoDB.getAll((Integer) req.getSession().getAttribute("userID")).forEach(productID->{
-//                shoppingCartWithDuplicates.add(productDaoDB.find(productID));
-//            });
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//
-//        int quantityNumber = quantity.get(productId);
-//        Cart cart = (Cart) req.getSession().getAttribute("cart");
         try {
             SupplierDaoJdbc supplierDaoJdbc = new SupplierDaoJdbc();
             ProductCategoryDaoJdbc productCategoryDaoJdbc = new ProductCategoryDaoJdbc();
@@ -137,6 +96,10 @@ public class CartController extends HttpServlet {
                 case "+":
                     productId = Integer.parseInt(req.getParameter("productId"));
                     cart.addProduct(productDaoJdbc.find(productId));
+                    session.setAttribute("cart", cart);
+                    totalPrice = (int) (totalPrice + productDaoJdbc.find(productId).getDefaultPrice());
+                    session.setAttribute("totalOrderAmount", totalPrice);
+                    resp.sendRedirect("/cart");
                     break;
                 case "-":
                     productId = Integer.parseInt(req.getParameter("productId"));
@@ -146,26 +109,34 @@ public class CartController extends HttpServlet {
                     } else {
                         cart.getDict().put(productId, cart.getDict().get(productId)-1);
                     }
+                    totalPrice = (int) (totalPrice - productDaoJdbc.find(productId).getDefaultPrice());
+                    session.setAttribute("totalOrderAmount", totalPrice);
+                    session.setAttribute("cart", cart);
+                    resp.sendRedirect("/cart");
                     break;
                 case "save":
-                    System.out.println(cart.getDict());
                     CartDaoJdbc cartDaoJdbc = new CartDaoJdbc();
                     for(Integer prodId : cart.getDict().keySet()){
                         cartDaoJdbc.addProduct(userId, prodId, cart.getDict().get(prodId));
                     }
-                    System.out.println("Products saved");
+                    resp.sendRedirect("/cart");
+                    break;
+                case "checkout":
+                    resp.sendRedirect("/checkout");
                     break;
                 case "remove":
                     productId = Integer.parseInt(req.getParameter("productId"));
+                    totalPrice = (int) (totalPrice - (productDaoJdbc.find(productId).getDefaultPrice() * cart.getDict().get(productId)));
                     cart.removeProduct(productId);
                     cart.getDict().remove(productId);
+                    session.setAttribute("cart", cart);
+                    session.setAttribute("totalOrderAmount", totalPrice);
+                    resp.sendRedirect("/cart");
                     break;
             }
         }catch (SQLException e) {
             e.printStackTrace();
         }
 
-
-        resp.sendRedirect("/cart");
     }
 }

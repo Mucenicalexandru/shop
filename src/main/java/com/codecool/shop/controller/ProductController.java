@@ -110,8 +110,8 @@ public class ProductController extends HttpServlet {
                 cart.addProduct(product);
                 session.setAttribute("itemsNumber", cart.getProductsInCart().size());
                 int totalPrice = 0;
-                for(Integer integer : cart.getProductsInCart()){
-                    totalPrice += productDaoJdbc.find(integer).getDefaultPrice();
+                for(Integer prodId : cart.getProductsInCart()){
+                    totalPrice += productDaoJdbc.find(prodId).getDefaultPrice() * cart.getDict().get(prodId);
                 }
                 session.setAttribute("totalOrderAmount", totalPrice);
 
