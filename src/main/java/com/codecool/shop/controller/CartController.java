@@ -84,10 +84,10 @@ public class CartController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String buttonPressed = req.getParameter("button");
-        int productId = Integer.parseInt(req.getParameter("productId"));
+        int productId = 0;
         int userId = (int) req.getSession().getAttribute("userId");
         Cart cart = (Cart) req.getSession().getAttribute("cart");
-        String saveButton = req.getParameter("saveButton");
+
 
 //        if (saveButton.equals("save")){
 //            try {
@@ -135,29 +135,35 @@ public class CartController extends HttpServlet {
 
             switch (buttonPressed) {
                 case "+":
+                    productId = Integer.parseInt(req.getParameter("productId"));
                     cart.addProduct(productDaoJdbc.find(productId));
-                    System.out.println(cart.getDict());
                     break;
                 case "-":
+                    productId = Integer.parseInt(req.getParameter("productId"));
                     if (cart.getQuantity(productId) == 1) {
                         cart.removeProduct(productId);
                         cart.getDict().remove(productId);
-                        System.out.println(cart.getDict());
                     } else {
                         cart.getDict().put(productId, cart.getDict().get(productId)-1);
-                        System.out.println(cart.getDict());
                     }
                     break;
+                case "save":
+                    System.out.println(cart.getDict());
+                    CartDaoJdbc cartDaoJdbc = new CartDaoJdbc();
+                    for(Integer prodId : cart.getDict().keySet()){
+                        cartDaoJdbc.addProduct(userId, prodId, cart.getDict().get(prodId));
+                    }
+                    System.out.println("Products saved");
+                    break;
                 case "remove":
+                    productId = Integer.parseInt(req.getParameter("productId"));
                     cart.removeProduct(productId);
                     cart.getDict().remove(productId);
                     break;
             }
-
         }catch (SQLException e) {
             e.printStackTrace();
         }
-
 
 
         resp.sendRedirect("/cart");

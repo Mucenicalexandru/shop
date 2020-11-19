@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface CartDao {
 
-    void addProduct(Product product, User user);
+    void addProduct(Integer productId, Integer userId, Integer quantity);
     List<Integer> getProductIdByUserId(int userId);
 }

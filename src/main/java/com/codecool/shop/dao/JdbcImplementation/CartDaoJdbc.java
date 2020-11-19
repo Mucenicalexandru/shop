@@ -44,20 +44,20 @@ public class CartDaoJdbc implements AbstractDao<Cart>, CartDao {
     }
 
     @Override
-    public void addProduct(Product product, User user) {
+    public void addProduct(Integer userId, Integer productId, Integer quantity) {
         String sql = "INSERT INTO cart(user_id, product_id, quantity) VALUES (?, ?, ?)";
         try(Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            statement.setInt(1, user.getId());
-            statement.setInt(2, product.getId());
-            statement.setInt(3, 1);
+            statement.setInt(1, userId);
+            statement.setInt(2, productId);
+            statement.setInt(3, quantity);
 
 
             statement.executeUpdate();
 
             ResultSet resultSet = statement.getGeneratedKeys();
             resultSet.next();
-            user.setId(resultSet.getInt(1));
+
         }catch (SQLException e){
             e.printStackTrace();
         }
