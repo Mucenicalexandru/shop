@@ -35,10 +35,10 @@ public class Login extends HttpServlet {
 
 
             int totalPrice = 0;
-            if(BCrypt.checkpw(request.getParameter("password"), user.getPassword()) ){
-                if(productIdList.size() > 0){
+            if (BCrypt.checkpw(request.getParameter("password"), user.getPassword())) {
+                if (productIdList.size() > 0) {
                     cart = new Cart();
-                    for(Integer productId : productIdList){
+                    for (Integer productId : productIdList) {
                         cart.addProduct(productDaoJdbc.find(productId));
                         cart.getDict().put(productId, cartDaoJdbc.getQuantityByProductId(productId));
                         totalPrice = (int) (totalPrice + productDaoJdbc.find(productId).getDefaultPrice() * cart.getDict().get(productId));
@@ -46,7 +46,7 @@ public class Login extends HttpServlet {
                         session.setAttribute("cart", cart);
                         session.setAttribute("totalOrderAmount", totalPrice);
                     }
-                }else{
+                } else {
                     cart = new Cart();
                     cart.setId(user.getId());
                     session.setAttribute("cart", cart);
@@ -70,4 +70,5 @@ public class Login extends HttpServlet {
         }
 
     }
+
 }
