@@ -97,4 +97,26 @@ public class CartDaoJdbc implements AbstractDao<Cart>, CartDao {
             throw new RuntimeException("Error while trying to remove an user. " + throwable, throwable);
         }
     }
+
+    @Override
+    public int getQuantityByProductId(int productId) {
+        int quantity = -1;
+        String sql = "SELECT quantity FROM cart WHERE product_id = ?";
+
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)) {
+
+
+            statement.setInt(1, productId);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                quantity = resultSet.getInt("quantity");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return quantity;
+    }
 }

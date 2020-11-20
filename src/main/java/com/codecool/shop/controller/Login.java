@@ -1,6 +1,5 @@
 package com.codecool.shop.controller;
 
-import com.codecool.shop.config.Connector;
 import com.codecool.shop.dao.JdbcImplementation.*;
 import com.codecool.shop.model.Cart;
 import com.codecool.shop.model.User;
@@ -14,10 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 @WebServlet(urlPatterns = {"/login"})
 public class Login extends HttpServlet {
@@ -44,8 +40,8 @@ public class Login extends HttpServlet {
                     cart = new Cart();
                     for(Integer productId : productIdList){
                         cart.addProduct(productDaoJdbc.find(productId));
+                        cart.getDict().put(productId, cartDaoJdbc.getQuantityByProductId(productId));
                         totalPrice = (int) (totalPrice + productDaoJdbc.find(productId).getDefaultPrice() * cart.getDict().get(productId));
-                        //TODO have to update the dictionary with quantity values
                         session.setAttribute("itemsInCart", cart.getProductsInCart().size());
                         session.setAttribute("cart", cart);
                         session.setAttribute("totalOrderAmount", totalPrice);
@@ -64,6 +60,7 @@ public class Login extends HttpServlet {
                 session.setAttribute("itemsNumber", cart.getProductsInCart().size());
                 response.sendRedirect("/index");
             } else {
+
                 System.out.println("the password dose not match");
                 response.sendRedirect("/index");
 
