@@ -58,9 +58,7 @@
                     <p>
                         <em th:text="'Date : ' + ${date}"></em>
                     </p>
-                    <p>
-<!--                        <em th:text="'Receipt : ' + ${lastOrder.getUuid()}"></em>-->
-                    </p>
+
                 </div>
             </div>
             <div class="row">
@@ -73,50 +71,50 @@
                     <thead>
                     <tr>
                         <th>Product</th>
-                        <th>#</th>
-                        <th class="text-center">Price</th>
-                        <th class="text-center">Total</th>
+                        <th>Quantity</th>
+                        <th class="text-center">Unit Price</th>
+                        <th class="text-center">Total Price</th>
                     </tr>
                     </thead>
+
                     <tbody>
-                    <tr th:each="product : ${cart}">
-                        <td class="col-md-9"><em th:text="${product}"></em></h4></td>
-<!--                        <td class="col-md-1" style="text-align: center" th:text="${lastOrder.getOrderedQuantities().get(orderedProduct.getId())}">1</td>-->
-                        <td class="col-md-1 text-center" th:text="${product}"></td>
-<!--                        <td class="col-md-1 text-center" th:text="${orderedProduct.getDefaultPrice()} * ${lastOrder.getOrderedQuantities().get(orderedProduct.getId())}"></td>-->
+                    <tr th:each="productId : ${cart}">
+<!--                        product name-->
+                        <div th:each="prod : ${productList}">
+                            <div th:if="${prod.getId() == productId}">
+                                <td class="col-md-9"><em th:text="${prod.getName()}"></em></h4></td>
+
+<!--                        product quantity-->
+                        <td class="col-md-1" style="text-align: center" th:text="${quantities.get(productId)}"></td>
+<!--                        product price-->
+                        <td class="col-md-1 text-center" th:text="${prod.getDefaultPrice()}"></td>
+<!--                          total price-->
+                        <td class="col-md-1 text-center" th:text="${prod.getDefaultPrice()} * ${quantities.get(productId)}"></td>
+                            </div>
+                        </div>
                     </tr>
-<!--                    <tr>-->
-<!--                        <td class="col-md-9"><em th:text="${lastOrder.getOrderedProducts().get(1).getName()}"></em></h4></td>-->
-<!--                        <td class="col-md-1" style="text-align: center"> 1 </td>-->
-<!--                        <td class="col-md-1 text-center" th:text="${lastOrder.getOrderedProducts().get(1).getPrice()}"></td>-->
-<!--                        <td class="col-md-1 text-center" th:text="${lastOrder.getOrderedProducts().get(1).getPrice()}"></td>-->
-<!--                    </tr>-->
+
                     <tr>
-                        <td>   </td>
-                        <td>   </td>
                         <td class="text-right">
-                            <p>
-                                <strong>Subtotal: </strong>
-                            </p>
-                            <p>
-                                <strong>Tax (5%): </strong>
-                            </p></td>
+                            <p><strong>Subtotal:</strong></p>
+                            <p><strong>Tax (5%):</strong></p>
+                        </td>
+
                         <td class="text-center">
-                            <p>
-<!--                                <strong th:text="${finalPrice} - (${finalPrice} * 5 / 100) + 'EUR'"></strong>-->
-                            </p>
-                            <p>
-<!--                                <strong th:text="${finalPrice} * 5 / 100"></strong>-->
-                            </p></td>
+                            <p><strong th:text="${finalPrice} - (${finalPrice} * 5 / 100) + 'EUR'"></strong></p>
+                            <p><strong th:text="${finalPrice} * 5 / 100"></strong></p>
+                        </td>
+
                     </tr>
+
                     <tr>
-                        <td>   </td>
-                        <td>   </td>
-                        <td class="text-right"><h4><strong>Total: </strong></h4></td>
-<!--                        <td class="text-center text-danger" th:text="${finalPrice} + 'EUR'"><h4><strong></strong></h4></td>-->
+                        <td class="text-right"><h4><strong>Total:</strong></h4></td>
+                        <td class="text-center text-danger" th:text="${finalPrice} + 'EUR'"></td>
                     </tr>
+
                     </tbody>
                 </table>
+
                 <div>
                     <h1 style="text-align:center;">
                         Thank you for your order.
