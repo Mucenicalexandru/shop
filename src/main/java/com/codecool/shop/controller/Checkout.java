@@ -1,10 +1,11 @@
 package com.codecool.shop.controller;
 
 import com.codecool.shop.config.TemplateEngineUtil;
-import com.codecool.shop.dao.JdbcImplementation.*;
+import com.codecool.shop.dao.JdbcImplementation.CartDaoJdbc;
+import com.codecool.shop.dao.JdbcImplementation.OrderDaoJdbc;
+import com.codecool.shop.dao.JdbcImplementation.UserDaoJdbc;
 import com.codecool.shop.model.Cart;
 import com.codecool.shop.model.Order;
-import com.codecool.shop.model.Product;
 import com.codecool.shop.model.User;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;

@@ -8,22 +8,14 @@ import com.codecool.shop.dao.JdbcImplementation.UserDaoJdbc;
 import com.codecool.shop.model.Cart;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.User;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.PdfWriter;
-//import org.springframework.security.crypto.encrypt.AesBytesEncryptor;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -78,18 +70,4 @@ public class OrderConfirmation extends HttpServlet {
 
     }
 
-//    @Override
-//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        Document document = new Document();
-//
-//        try {
-//            PdfWriter.getInstance(document, new FileOutputStream("resources/receipt.pdf"));
-//            document.open();
-//            document.add(new Paragraph("Receipt : "));
-//            document.add(new Phrase("Shipping address : "));
-//            document.close();
-//        } catch (DocumentException e) {
-//            e.printStackTrace();
-//        }
-//    }
 }

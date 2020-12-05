@@ -24,6 +24,7 @@ public class OrderDaoJdbc implements AbstractDao<Order>, OrderDao<Order> {
         this.dataSource = Connector.connect();
     }
 
+
     @Override
     public void add(Order order) {
         String sql = "INSERT INTO orders(date, user_id, product_id, quantity) VALUES (?, ?, ?, ?)";

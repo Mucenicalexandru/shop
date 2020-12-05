@@ -1,7 +1,6 @@
 package com.codecool.shop.controller;
 
 import com.codecool.shop.config.TemplateEngineUtil;
-//import com.codecool.shop.dao.memoryImplementation.OrderDaoMem;
 import com.codecool.shop.dao.JdbcImplementation.*;
 import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Product;
@@ -52,9 +51,7 @@ public class AdminLogFile extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("search");
-        System.out.println("Searched Name is : " + name);
         resp.sendRedirect("/logfile");
 
-        //TODO Edit order
     }
 }

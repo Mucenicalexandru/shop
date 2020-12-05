@@ -3,8 +3,6 @@ package com.codecool.shop.dao.JdbcImplementation;
 import com.codecool.shop.config.Connector;
 import com.codecool.shop.dao.AbstractDao;
 import com.codecool.shop.dao.UserDao;
-import com.codecool.shop.model.Order;
-import com.codecool.shop.model.Supplier;
 import com.codecool.shop.model.User;
 
 import javax.sql.DataSource;

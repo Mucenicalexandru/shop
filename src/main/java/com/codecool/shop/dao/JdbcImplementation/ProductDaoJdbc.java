@@ -6,8 +6,6 @@ import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
-import com.google.gson.internal.$Gson$Preconditions;
-
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.*;

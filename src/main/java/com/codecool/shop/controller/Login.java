@@ -60,8 +60,6 @@ public class Login extends HttpServlet {
                 session.setAttribute("itemsNumber", cart.getProductsInCart().size());
                 response.sendRedirect("/index");
             } else {
-
-                System.out.println("the password dose not match");
                 response.sendRedirect("/index");
 
             }

@@ -1,10 +1,12 @@
 package com.codecool.shop.controller;
 
 import com.codecool.shop.config.TemplateEngineUtil;
-import com.codecool.shop.dao.JdbcImplementation.*;
+import com.codecool.shop.dao.JdbcImplementation.CartDaoJdbc;
+import com.codecool.shop.dao.JdbcImplementation.ProductCategoryDaoJdbc;
+import com.codecool.shop.dao.JdbcImplementation.ProductDaoJdbc;
+import com.codecool.shop.dao.JdbcImplementation.SupplierDaoJdbc;
 import com.codecool.shop.model.Cart;
 import com.codecool.shop.model.Product;
-import com.codecool.shop.model.User;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -17,9 +19,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @WebServlet(urlPatterns = {"/cart"})
 public class CartController extends HttpServlet {

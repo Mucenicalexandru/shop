@@ -2,10 +2,7 @@ package com.codecool.shop.dao.JdbcImplementation;
 
 import com.codecool.shop.config.Connector;
 import com.codecool.shop.dao.AbstractDao;
-import com.codecool.shop.model.Product;
-import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
-
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
