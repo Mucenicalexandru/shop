@@ -4,7 +4,7 @@ A shop website, for practicing Java with Servlets, User Session and Secutity wit
   Written in IntelliJ IDEA<br/>
   Github for code management<br/>
   Front-end : HTML, CSS, Bootstrap, Thymeleaf<br/>
-  Data : PostgreSQL
+  Data : PostgreSQL<br/>
   Project management tool : Maven<br/>
 
 # Screenshots
