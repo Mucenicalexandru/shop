@@ -1,4 +1,4 @@
-# Beerpedia
+# Shop
 
 A shop website, for practicing Java with Servlets, User Session and Secutity with BCrypt<br/><br/>
   Written in IntelliJ IDEA<br/>
